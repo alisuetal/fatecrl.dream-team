@@ -40,7 +40,6 @@ class SearchLeaguesScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 40),
                       child: TextfieldWithLabelWidget(
-                        anchor: (_) {},
                         hint: "Nome da liga ou código",
                       ),
                     ),

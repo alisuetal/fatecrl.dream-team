@@ -14,32 +14,40 @@ import 'package:flutter_svg/flutter_svg.dart';
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({Key? key}) : super(key: key);
   final _formKey = GlobalKey<FormState>();
-
-  _submitSignUp() async {
-    // final bool isValid = _formKey.currentState!.validate();
-    // if (!isValid) {
-    //   return;
-    // }
-    // _formKey.currentState?.save();
-
-    final User newUser = User(
-      name: "name",
-      email: "gabrielfdoval1@gmail.com",
-      confirmEmail: "confirmEmail",
-      password: "password",
-      confirmPassword: "confirmPassword",
-      birthday: DateTime.now(),
-    );
-
-    final bool vEmail = await newUser.vEmail();
-    if (vEmail) {
-      print("email já cadastrado");
-    }
-  }
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _confirmEmailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    final String nome;
+    _submitSignUp() async {
+      final bool isValid = _formKey.currentState!.validate();
+      if (!isValid) {
+        return;
+      }
+      _formKey.currentState?.save();
+
+      final bool vEmail = await User.vEmail("email");
+      if (vEmail) {
+        print("Email já cadastrado");
+        return;
+      }
+
+      final User newUser = User(
+        name: _nameController.text,
+        email: _emailController.text,
+        password: _passwordController.text,
+        birthday: DateTime.now(),
+      );
+
+      final bool signUp = await newUser.signUp();
+      if (!signUp) {
+        print("Erro ao cadastrar, tente novamente mais tarde");
+      }
+      Navigator.of(context).pushReplacementNamed(AppRoutes.completeSignUp);
+    }
 
     return ScreenHolderWidget(
       content: Stack(
@@ -72,7 +80,7 @@ class SignUpScreen extends StatelessWidget {
                             padding: const EdgeInsets.only(top: 40),
                             child: TextfieldWithLabelWidget(
                               text: null,
-                              anchor: (e) {},
+                              controller: _nameController,
                               hint: "Nome:",
                               validator: (name) {
                                 if (name.isEmpty) {
@@ -93,7 +101,7 @@ class SignUpScreen extends StatelessWidget {
                             padding: const EdgeInsets.only(top: 16),
                             child: TextfieldWithLabelWidget(
                               text: null,
-                              anchor: (_) {},
+                              controller: _emailController,
                               hint: "E-mail:",
                               validator: (email) {
                                 final emailv = RegExp(
@@ -113,16 +121,11 @@ class SignUpScreen extends StatelessWidget {
                             padding: const EdgeInsets.only(top: 16),
                             child: TextfieldWithLabelWidget(
                               text: null,
-                              anchor: (_) {},
+                              controller: _confirmEmailController,
                               hint: "Confirmar e-mail:",
                               validator: (email) {
-                                final emailv = RegExp(
-                                    "^[a-zA-Z0-9.!#\$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*\$");
-                                if (email.isEmpty) {
-                                  return "Escreva seu email";
-                                }
-                                if (!email.contains(emailv)) {
-                                  return "Email inválido";
+                                if (_emailController.text != email) {
+                                  return "Os emails não coincidem";
                                 }
                                 return "";
                               },
@@ -133,8 +136,9 @@ class SignUpScreen extends StatelessWidget {
                             padding: const EdgeInsets.only(top: 16),
                             child: TextfieldWithLabelWidget(
                               text: null,
-                              anchor: (_) {},
                               hint: "Senha:",
+                              obscure: true,
+                              controller: _passwordController,
                               validator: (password) {
                                 final upperLower =
                                     RegExp(r"(?=.*[a-z])(?=.*[A-Z])");
@@ -159,8 +163,15 @@ class SignUpScreen extends StatelessWidget {
                             padding: const EdgeInsets.only(top: 16),
                             child: TextfieldWithLabelWidget(
                               text: null,
-                              anchor: (_) {},
+                              obscure: true,
+                              controller: _confirmPasswordController,
                               hint: "Confirmar senha:",
+                              validator: (password) {
+                                if (_passwordController.text != password) {
+                                  return "As senhas não coincidem";
+                                }
+                                return "";
+                              },
                               keyboardtype: TextInputType.visiblePassword,
                             ),
                           ),
@@ -168,7 +179,6 @@ class SignUpScreen extends StatelessWidget {
                             padding: const EdgeInsets.only(top: 16),
                             child: TextfieldWithLabelWidget(
                               text: null,
-                              anchor: (_) {},
                               hint: "Data de nascimento:",
                               validator: (birthDay) {
                                 final DateTime dataMinima = DateTime(
@@ -193,8 +203,6 @@ class SignUpScreen extends StatelessWidget {
                         enabled: true,
                         function: () {
                           _submitSignUp();
-                          // Navigator.of(context)
-                          //     .pushReplacementNamed(AppRoutes.completeSignUp);
                         },
                         text: "Enviar",
                         materialIcon: null,

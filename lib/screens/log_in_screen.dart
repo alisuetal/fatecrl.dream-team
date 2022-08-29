@@ -39,7 +39,6 @@ class LogInScreen extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 40),
                       child: TextfieldWithLabelWidget(
                         text: null,
-                        anchor: (_) {},
                         hint: "E-mail:",
                       ),
                     ),
@@ -47,7 +46,6 @@ class LogInScreen extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 16),
                       child: TextfieldWithLabelWidget(
                         text: null,
-                        anchor: (_) {},
                         hint: "Senha:",
                       ),
                     ),

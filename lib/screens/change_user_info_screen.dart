@@ -91,7 +91,6 @@ class ChangeUserInfoScreen extends HookWidget {
                       padding: const EdgeInsets.only(top: 16),
                       child: TextfieldWithLabelWidget(
                         obscure: arguments[1],
-                        anchor: (_) {},
                         hint:
                             "Alterar ${arguments[0].toString().toLowerCase()}",
                       ),
@@ -101,7 +100,6 @@ class ChangeUserInfoScreen extends HookWidget {
                         padding: const EdgeInsets.only(top: 16),
                         child: TextfieldWidget(
                           obscure: arguments[1],
-                          anchor: (_) {},
                           hint:
                               "Confirmar ${arguments[0].toString().toLowerCase()}",
                         ),

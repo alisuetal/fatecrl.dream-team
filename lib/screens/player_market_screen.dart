@@ -60,7 +60,6 @@ class PlayerMarketScreen extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 40),
                       child: TextfieldWithLabelWidget(
                         text: null,
-                        anchor: (_) {},
                         hint: "Pesquisar jogador",
                       ),
                     ),

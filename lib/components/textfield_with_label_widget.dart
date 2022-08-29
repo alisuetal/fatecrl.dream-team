@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 
 import 'textfield_widget.dart';
 
 class TextfieldWithLabelWidget extends StatelessWidget {
   final String hint;
-  final void Function(String text) anchor;
   final String Function(String text)? validator;
-  final keyboardtype;
+  final TextInputType? keyboardtype;
+  final TextEditingController? controller;
   final String? text;
   final bool? obscure;
 
   const TextfieldWithLabelWidget(
       {Key? key,
       this.text,
-      required this.anchor,
       required this.hint,
+      this.controller,
       this.obscure,
       this.keyboardtype,
       this.validator})
@@ -34,11 +33,12 @@ class TextfieldWithLabelWidget extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(top: 8.0),
           child: TextfieldWidget(
-            anchor: (e) => anchor(e),
             hint: hint,
             text: text,
             validator: validator ?? (value) => value,
             keyboardtype: keyboardtype,
+            controller: controller,
+            obscure: obscure,
           ),
         ),
       ],

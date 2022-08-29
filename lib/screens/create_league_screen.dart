@@ -45,7 +45,6 @@ class CreateLeagueScreen extends HookWidget {
                       padding: const EdgeInsets.only(top: 40),
                       child: TextfieldWithLabelWidget(
                         text: null,
-                        anchor: (_) {},
                         hint: "Nome da liga",
                       ),
                     ),

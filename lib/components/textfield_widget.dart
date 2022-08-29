@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 class TextfieldWidget extends StatefulWidget {
   final String? text;
   final String hint;
-  final void Function(String value) anchor;
   final String Function(String value)? validator;
-  final keyboardtype;
+  final TextEditingController? controller;
+  final TextInputType? keyboardtype;
   final bool? obscure;
 
   const TextfieldWidget({
     Key? key,
     this.text,
-    required this.anchor,
     required this.hint,
+    this.controller,
     this.obscure,
     this.validator,
     this.keyboardtype,
@@ -28,9 +28,6 @@ class _TextfieldWidgetState extends State<TextfieldWidget> {
   @override
   void initState() {
     _textController.text = widget.text ?? "";
-    _textController.addListener(() {
-      widget.anchor(_textController.text);
-    });
     super.initState();
   }
 
@@ -44,7 +41,7 @@ class _TextfieldWidgetState extends State<TextfieldWidget> {
           children: [
             TextFormField(
               maxLength: 120,
-              controller: _textController,
+              controller: widget.controller,
               textAlignVertical: TextAlignVertical.center,
               decoration: InputDecoration(
                 border: InputBorder.none,
