@@ -4,6 +4,8 @@ class TextfieldWidget extends StatefulWidget {
   final String? text;
   final String hint;
   final void Function(String value) anchor;
+  final String Function(String value)? validator;
+  final keyboardtype;
   final bool? obscure;
 
   const TextfieldWidget({
@@ -12,6 +14,8 @@ class TextfieldWidget extends StatefulWidget {
     required this.anchor,
     required this.hint,
     this.obscure,
+    this.validator,
+    this.keyboardtype,
   }) : super(key: key);
 
   @override
@@ -61,6 +65,8 @@ class _TextfieldWidgetState extends State<TextfieldWidget> {
                   .copyWith(color: Colors.white),
               cursorColor: Colors.white,
               obscureText: widget.obscure ?? false,
+              validator: (value) => widget.validator!(value ?? ''),
+              keyboardType: widget.keyboardtype,
             ),
             if (_textController.text != "" && _textController.text.isNotEmpty)
               Row(

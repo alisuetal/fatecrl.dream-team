@@ -76,7 +76,7 @@ class DreamTeam extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: AppRoutes.home,
       routes: {
-        AppRoutes.signUp: (context) => const SignUpScreen(),
+        AppRoutes.signUp: (context) => SignUpScreen(),
         AppRoutes.logIn: (context) => const LogInScreen(),
         AppRoutes.completeSignUp: (context) => const CompleteSignUpScreen(),
         AppRoutes.team: (context) => const TeamScreen(),
