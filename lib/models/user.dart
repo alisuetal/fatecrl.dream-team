@@ -16,12 +16,22 @@ class User {
   });
 
   static Future<bool> vEmail(String email) async {
-    final url = "http://192.168.15.7/dream_team_api/vEmail.php?email=$email";
-    final response = await http.post(Uri.parse(url),
-        body: jsonEncode({
-          'email': email,
-        }));
-    return jsonDecode(response.body);
+    final url = "http://192.168.15.7/dream_team_api/vEmail.php";
+
+    final response = await http.post(
+      Uri.parse(url),
+      body: {
+        'email': email,
+      },
+    );
+
+    final data = jsonDecode(response.body);
+
+    if (!data["error"]) {
+      return data["result"];
+    }
+
+    return false;
   }
 
   Future<bool> vEmailLocal() async {

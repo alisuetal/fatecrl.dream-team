@@ -30,8 +30,8 @@ class SignUpScreen extends StatelessWidget {
       }
       _formKey.currentState?.save();
 
-      final bool vEmail = await User.vEmail("email");
-      if (vEmail) {
+      final bool vEmail = await User.vEmail(_emailController.text);
+      if (!vEmail) {
         //  mostrar popover de erro
         print("Email já cadastrado");
         return false;
@@ -49,7 +49,6 @@ class SignUpScreen extends StatelessWidget {
         print("Erro ao cadastrar, tente novamente mais tarde");
       }
       return true;
-      
     }
 
     return ScreenHolderWidget(
@@ -95,7 +94,8 @@ class SignUpScreen extends StatelessWidget {
                               text: null,
                               controller: _emailController,
                               hint: "E-mail:",
-                              validator: (email) => Validators.email(email, _confirmEmailController.text),
+                              validator: (email) => Validators.email(
+                                  email, _confirmEmailController.text),
                               keyboardtype: TextInputType.emailAddress,
                             ),
                           ),
@@ -105,7 +105,8 @@ class SignUpScreen extends StatelessWidget {
                               text: null,
                               controller: _confirmEmailController,
                               hint: "Confirmar e-mail:",
-                              validator: (email) => Validators.email(email, _confirmEmailController.text),
+                              validator: (confirmEmail) => Validators.email(
+                                  _emailController.text, confirmEmail),
                               keyboardtype: TextInputType.emailAddress,
                             ),
                           ),
@@ -116,7 +117,8 @@ class SignUpScreen extends StatelessWidget {
                               hint: "Senha:",
                               obscure: true,
                               controller: _passwordController,
-                              validator: (password) => Validators.password(password, _confirmPasswordController.text),
+                              validator: (password) => Validators.password(
+                                  password, _confirmPasswordController.text),
                               keyboardtype: TextInputType.visiblePassword,
                             ),
                           ),
@@ -127,7 +129,9 @@ class SignUpScreen extends StatelessWidget {
                               obscure: true,
                               controller: _confirmPasswordController,
                               hint: "Confirmar senha:",
-                              validator: (confirmPassword) => Validators.password(_passwordController.text, confirmPassword),
+                              validator: (confirmPassword) =>
+                                  Validators.password(_passwordController.text,
+                                      confirmPassword),
                               keyboardtype: TextInputType.visiblePassword,
                             ),
                           ),
@@ -158,7 +162,10 @@ class SignUpScreen extends StatelessWidget {
                       child: ButtonWidget(
                         enabled: true,
                         function: () {
-                          _submitSignUp() == true ? Navigator.of(context).pushReplacementNamed(AppRoutes.completeSignUp) : null;
+                          _submitSignUp() == true
+                              ? Navigator.of(context).pushReplacementNamed(
+                                  AppRoutes.completeSignUp)
+                              : null;
                         },
                         text: "Enviar",
                         materialIcon: null,
