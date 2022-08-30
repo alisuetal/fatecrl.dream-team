@@ -11,6 +11,7 @@ import 'package:dream_team/screens/utils/validator.dart';
 import 'package:dream_team/tools/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({Key? key}) : super(key: key);
@@ -24,23 +25,29 @@ class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _submitSignUp() async {
-      final bool isValid = _formKey.currentState!.validate();
-      if (!isValid) {
-        return false;
-      }
-      _formKey.currentState?.save();
+      // final bool isValid = _formKey.currentState!.validate();
+      // if (!isValid) {
+      //   return false;
+      // }
+      // _formKey.currentState?.save();
 
-      final bool vEmail = await User.vEmail(_emailController.text);
-      if (!vEmail) {
-        //  mostrar popover de erro
-        print("Email já cadastrado");
-        return false;
-      }
+      // final bool vEmail = await User.vEmail(_emailController.text);
+      // if (!vEmail) {
+      //   //  mostrar popover de erro
+      //   print("Email já cadastrado");
+      //   return false;
+      // }
 
+      // final User newUser = User(
+      //   name: _nameController.text,
+      //   email: _emailController.text,
+      //   password: _passwordController.text,
+      //   birthday: DateTime.now(),
+      // );
       final User newUser = User(
-        name: _nameController.text,
-        email: _emailController.text,
-        password: _passwordController.text,
+        name: "gabriel",
+        email: "gabriel@email",
+        password: "1234",
         birthday: DateTime.now(),
       );
 
@@ -48,6 +55,7 @@ class SignUpScreen extends StatelessWidget {
       if (!signUp) {
         print("Erro ao cadastrar, tente novamente mais tarde");
       }
+      return false;
       return true;
     }
 

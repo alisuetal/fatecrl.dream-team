@@ -15,6 +15,28 @@ class User {
     required this.birthday,
   });
 
+  Future<bool> signUp() async {
+    final url = "http://192.168.15.7/dream_team_api/insert_usuario.php";
+
+    final response = await http.post(
+      Uri.parse(url),
+      body: {
+        'name': name,
+        'email': email,
+        'password': password,
+        'birthday': parseDate(),
+      },
+    );
+
+    final data = jsonDecode(response.body);
+    print(data['result']);
+    // if (!data["error"]) {
+    //   return data["result"];
+    // }
+
+    return false;
+  }
+
   static Future<bool> vEmail(String email) async {
     final url = "http://192.168.15.7/dream_team_api/vEmail.php";
 
@@ -38,16 +60,12 @@ class User {
     return vEmail(email);
   }
 
-  Future<bool> signUp() async {
-    final url = "http://192.168.15.7/dream_team_api/insert_signup.php?"
-        "name=$name&email=$email&password=$password&birthday=$birthday";
-    final response = await http.post(Uri.parse(url),
-        body: jsonEncode({
-          'name': name,
-          'email': email,
-          'password': password,
-          'brithday': birthday,
-        }));
-    return jsonDecode(response.body);
+  @override
+  String toString() {
+    return name + email + password + parseDate();
+  }
+
+  String parseDate() {
+    return "${birthday.year}-${birthday.month < 10 ? "0${birthday.month}" : birthday.month}-${birthday.day}";
   }
 }
