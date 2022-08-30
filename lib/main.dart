@@ -37,7 +37,7 @@ class DreamTeam extends StatelessWidget {
     return MaterialApp(
       title: "Dream Team",
       theme: ThemeData(
-        fontFamily: "Phenomicon",
+        fontFamily: "Coolvetica",
         primarySwatch: ColorUtilities.createMaterialColor(
           const Color(0xffE56B44),
         ),
