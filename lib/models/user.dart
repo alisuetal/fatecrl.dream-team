@@ -15,6 +15,24 @@ class User {
     required this.birthday,
   });
 
+  static Future<bool> signIn(String email, String password) async {
+    final url = "http://192.168.15.7/dream_team_api/insert_usuario.php";
+
+    final response = await http.post(
+      Uri.parse(url),
+      body: {
+        'email': email,
+        'password': password,
+      },
+    );
+
+    final data = jsonDecode(response.body);
+    if (!data["error"]) {
+      return true;
+    }
+    return false;
+  }
+
   Future<bool> signUp() async {
     final url = "http://192.168.15.7/dream_team_api/insert_usuario.php";
 
@@ -29,11 +47,9 @@ class User {
     );
 
     final data = jsonDecode(response.body);
-    print(data['result']);
-    // if (!data["error"]) {
-    //   return data["result"];
-    // }
-
+    if (!data["error"]) {
+      return true;
+    }
     return false;
   }
 
@@ -58,11 +74,6 @@ class User {
 
   Future<bool> vEmailLocal() async {
     return vEmail(email);
-  }
-
-  @override
-  String toString() {
-    return name + email + password + parseDate();
   }
 
   String parseDate() {

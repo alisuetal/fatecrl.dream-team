@@ -1,6 +1,5 @@
 class Validators {
-
-  static String name(String name){
+  static String name(String name) {
     if (name.isEmpty) {
       return "Escreva seu nome";
     }
@@ -10,25 +9,27 @@ class Validators {
     if (name.length <= 3) {
       return "O nome precisa ter pelo menos três letras";
     }
-    return "";                          
+    return "";
   }
 
-  static String email(String email, String confirmEmail){
-    final emailv = RegExp("^[a-zA-Z0-9.!#\$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*\$");
-                                
+  static String email(String email, {confirmEmail}) {
+    final emailv = RegExp(
+        "^[a-zA-Z0-9.!#\$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*\$");
+
     if (email.isEmpty) {
       return "Escreva seu email";
     }
     if (!email.contains(emailv)) {
       return "Email inválido";
     }
-    if (confirmEmail != email) {
+    final vConfirmEmail = confirmEmail.toString().isEmpty;
+    if (!vConfirmEmail && confirmEmail != email) {
       return "Os emails não coincidem";
     }
     return "";
   }
 
-  static String password(String password, String confirmPassword){
+  static String password(String password, {confirmPassword}) {
     final upperLower = RegExp(r"(?=.*[a-z])(?=.*[A-Z])");
     if (password.isEmpty) {
       return "Digite uma senha";
@@ -42,10 +43,10 @@ class Validators {
     if (!password.contains(RegExp(r'[0-9]'))) {
       return "A senha precisa ter um número";
     }
-    if(password != confirmPassword){
+    final vConfirmPassword = password.toString().isEmpty;
+    if (!vConfirmPassword && password != confirmPassword) {
       return "As senhas não coincidem";
     }
     return "";
   }
 }
-

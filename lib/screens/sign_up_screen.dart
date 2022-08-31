@@ -24,38 +24,33 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _submitSignUp() async {
-      // final bool isValid = _formKey.currentState!.validate();
-      // if (!isValid) {
-      //   return false;
-      // }
-      // _formKey.currentState?.save();
+    Future<bool> _submitSignUp() async {
+      final bool isValid = _formKey.currentState!.validate();
+      if (!isValid) {
+        return false;
+      }
+      _formKey.currentState?.save();
 
-      // final bool vEmail = await User.vEmail(_emailController.text);
-      // if (!vEmail) {
-      //   //  mostrar popover de erro
-      //   print("Email já cadastrado");
-      //   return false;
-      // }
+      final bool vEmail = await User.vEmail(_emailController.text);
+      if (!vEmail) {
+        //  mostrar popover de erro
+        print("Email já cadastrado");
+        return false;
+      }
 
-      // final User newUser = User(
-      //   name: _nameController.text,
-      //   email: _emailController.text,
-      //   password: _passwordController.text,
-      //   birthday: DateTime.now(),
-      // );
       final User newUser = User(
-        name: "gabriel",
-        email: "gabriel@email",
-        password: "1234",
+        name: _nameController.text,
+        email: _emailController.text,
+        password: _passwordController.text,
         birthday: DateTime.now(),
       );
 
       final bool signUp = await newUser.signUp();
       if (!signUp) {
+        //precisa ter um popup
         print("Erro ao cadastrar, tente novamente mais tarde");
+        return false;
       }
-      return false;
       return true;
     }
 
@@ -102,8 +97,8 @@ class SignUpScreen extends StatelessWidget {
                               text: null,
                               controller: _emailController,
                               hint: "E-mail:",
-                              validator: (email) => Validators.email(
-                                  email, _confirmEmailController.text),
+                              validator: (email) => Validators.email(email,
+                                  confirmEmail: _confirmEmailController.text),
                               keyboardtype: TextInputType.emailAddress,
                             ),
                           ),
@@ -114,7 +109,8 @@ class SignUpScreen extends StatelessWidget {
                               controller: _confirmEmailController,
                               hint: "Confirmar e-mail:",
                               validator: (confirmEmail) => Validators.email(
-                                  _emailController.text, confirmEmail),
+                                  _emailController.text,
+                                  confirmEmail: confirmEmail),
                               keyboardtype: TextInputType.emailAddress,
                             ),
                           ),
@@ -126,7 +122,9 @@ class SignUpScreen extends StatelessWidget {
                               obscure: true,
                               controller: _passwordController,
                               validator: (password) => Validators.password(
-                                  password, _confirmPasswordController.text),
+                                  password,
+                                  confirmPassword:
+                                      _confirmPasswordController.text),
                               keyboardtype: TextInputType.visiblePassword,
                             ),
                           ),
@@ -139,7 +137,7 @@ class SignUpScreen extends StatelessWidget {
                               hint: "Confirmar senha:",
                               validator: (confirmPassword) =>
                                   Validators.password(_passwordController.text,
-                                      confirmPassword),
+                                      confirmPassword: confirmPassword),
                               keyboardtype: TextInputType.visiblePassword,
                             ),
                           ),
@@ -170,10 +168,15 @@ class SignUpScreen extends StatelessWidget {
                       child: ButtonWidget(
                         enabled: true,
                         function: () {
-                          _submitSignUp() == true
-                              ? Navigator.of(context).pushReplacementNamed(
-                                  AppRoutes.completeSignUp)
-                              : null;
+                          _submitSignUp().then(
+                            (value) {
+                              if (value) {
+                                Navigator.of(context).pushReplacementNamed(
+                                    AppRoutes.completeSignUp);
+                              }
+                              //o popover de erro de cadastro pode vir nesse else também
+                            },
+                          );
                         },
                         text: "Enviar",
                         materialIcon: null,
