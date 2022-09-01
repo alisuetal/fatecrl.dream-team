@@ -31,8 +31,9 @@ class SignUpScreen extends StatelessWidget {
       }
       _formKey.currentState?.save();
 
-      final bool vEmail = await User.vEmail(_emailController.text);
-      if (!vEmail) {
+      final bool chekExistEmail =
+          await User.chekExistEmail(_emailController.text);
+      if (chekExistEmail) {
         //  mostrar popover de erro
         print("Email já cadastrado");
         return false;

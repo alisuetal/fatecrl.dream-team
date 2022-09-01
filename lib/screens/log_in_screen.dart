@@ -23,13 +23,12 @@ class LogInScreen extends StatelessWidget {
     }
     _formKey.currentState?.save();
 
-    final bool vEmail = await User.vEmail(_emailController.text);
-    if (!vEmail) {
-      //  mostrar popover de erro
-      print("Email já cadastrado");
-      return false;
+    final bool signIn =
+        await User.signIn(_emailController.text, _passwordController.text);
+    if (signIn) {
+      return true;
     }
-    return true;
+    return false;
   }
 
   @override

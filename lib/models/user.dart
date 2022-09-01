@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
+import 'package:dream_team/screens/utils/constants.dart';
 import 'package:http/http.dart' as http;
 
 class User {
@@ -16,67 +17,84 @@ class User {
   });
 
   static Future<bool> signIn(String email, String password) async {
-    final url = "http://192.168.15.7/dream_team_api/insert_usuario.php";
-
     final response = await http.post(
-      Uri.parse(url),
+      Uri.parse(Constants.baseUrl),
       body: {
         'email': email,
         'password': password,
       },
     );
 
-    final data = jsonDecode(response.body);
-    if (!data["error"]) {
+    if (response.statusCode == 200) {
+      //cadastro realizado com sucesso
+      final data = jsonDecode(response.body);
+      User user = User(
+        name: data['name'],
+        email: data['email'],
+        password: data['password'],
+        birthday: DateTime.parse(data['birthday']),
+      );
+      print(user.toString());
       return true;
+    } else if (response.statusCode == 400) {
+      //erro ao inserir
+    } else if (response.statusCode == 500) {
+      //erro no sql
     }
     return false;
   }
 
-  Future<bool> signUp() async {
-    final url = "http://192.168.15.7/dream_team_api/insert_usuario.php";
+  @override
+  String toString() {
+    return name + email + password + birthday.toString();
+  }
 
+  Future<bool> signUp() async {
     final response = await http.post(
-      Uri.parse(url),
+      Uri.parse(Constants.baseUrl),
       body: {
         'name': name,
         'email': email,
         'password': password,
-        'birthday': parseDate(),
+        'birthday': parseDate(birthday),
       },
     );
 
-    final data = jsonDecode(response.body);
-    if (!data["error"]) {
+    if (response.statusCode == 200) {
+      //cadastro realizado com sucesso
+      final data = jsonDecode(response.body);
+      print(data);
       return true;
+    } else if (response.statusCode == 400) {
+      //erro ao inserir
+    } else if (response.statusCode == 500) {
+      //erro no sql
     }
     return false;
   }
 
-  static Future<bool> vEmail(String email) async {
-    final url = "http://192.168.15.7/dream_team_api/vEmail.php";
+  static Future<bool> chekExistEmail(String email) async {
+    final url = "${Constants.baseUrl}?email=$email";
 
-    final response = await http.post(
-      Uri.parse(url),
-      body: {
-        'email': email,
-      },
-    );
-
-    final data = jsonDecode(response.body);
-
-    if (!data["error"]) {
-      return data["result"];
+    final response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      //email encontrado
+      final data = jsonDecode(response.body);
+      print(data);
+      return true;
+    } else if (response.statusCode == 400) {
+      //email não encontrado
+    } else if (response.statusCode == 500) {
+      //erro no sql
     }
-
     return false;
   }
 
-  Future<bool> vEmailLocal() async {
-    return vEmail(email);
+  Future<bool> chekExistEmailLocal() async {
+    return chekExistEmail(email);
   }
 
-  String parseDate() {
+  String parseDate(DateTime birthday) {
     return "${birthday.year}-${birthday.month < 10 ? "0${birthday.month}" : birthday.month}-${birthday.day < 10 ? "0${birthday.day}" : birthday.day}";
   }
 }
