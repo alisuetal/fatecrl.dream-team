@@ -4,7 +4,7 @@ import 'textfield_widget.dart';
 
 class TextfieldWithLabelWidget extends StatelessWidget {
   final String hint;
-  final String Function(String text)? validator;
+  final Function(String text)? validator;
   final TextInputType? keyboardtype;
   final TextEditingController? controller;
   final String? text;

@@ -4,6 +4,7 @@ import 'package:dream_team/components/round_icon_widget.dart';
 import 'package:dream_team/components/screen_holder_widget.dart';
 import 'package:dream_team/components/textfield_with_label_widget.dart';
 import 'package:dream_team/models/user.dart';
+import 'package:dream_team/controllers/user.dart';
 import 'package:dream_team/screens/utils/validator.dart';
 import 'package:dream_team/tools/app_routes.dart';
 import 'package:flutter/material.dart';
@@ -22,9 +23,9 @@ class LogInScreen extends StatelessWidget {
       return false;
     }
     _formKey.currentState?.save();
-
+    UserControler controler = UserControler();
     final bool signIn =
-        await User.signIn(_emailController.text, _passwordController.text);
+        await controler.signIn(_emailController.text, _passwordController.text);
     if (signIn) {
       return true;
     }
@@ -91,8 +92,7 @@ class LogInScreen extends StatelessWidget {
                                   ((value) {
                                     if (value) {
                                       Navigator.of(context)
-                                          .pushReplacementNamed(
-                                              AppRoutes.completeSignUp);
+                                          .pushReplacementNamed(AppRoutes.team);
                                     }
                                   }),
                                 );

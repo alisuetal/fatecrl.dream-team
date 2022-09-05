@@ -7,14 +7,22 @@ import 'package:dream_team/components/screen_holder_widget.dart';
 import 'package:dream_team/components/textfield_with_label_widget.dart';
 import 'package:dream_team/components/textfield_widget.dart';
 import 'package:dream_team/models/user.dart';
+import 'package:dream_team/controllers/user.dart';
 import 'package:dream_team/screens/utils/validator.dart';
 import 'package:dream_team/tools/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends StatefulWidget {
   SignUpScreen({Key? key}) : super(key: key);
+
+  @override
+  State<SignUpScreen> createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
@@ -24,7 +32,9 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future<bool> _submitSignUp() async {
+    final UserControler userControler = Provider.of<UserControler>(context);
+
+    Future<bool> submitSignUp(UserControler userControler) async {
       final bool isValid = _formKey.currentState!.validate();
       if (!isValid) {
         return false;
@@ -32,8 +42,8 @@ class SignUpScreen extends StatelessWidget {
       _formKey.currentState?.save();
 
       final bool chekExistEmail =
-          await User.chekExistEmail(_emailController.text);
-      if (chekExistEmail) {
+          await userControler.chekExistEmail(_emailController.text);
+      if (!chekExistEmail) {
         //  mostrar popover de erro
         print("Email já cadastrado");
         return false;
@@ -45,13 +55,7 @@ class SignUpScreen extends StatelessWidget {
         password: _passwordController.text,
         birthday: DateTime.now(),
       );
-
-      final bool signUp = await newUser.signUp();
-      if (!signUp) {
-        //precisa ter um popup
-        print("Erro ao cadastrar, tente novamente mais tarde");
-        return false;
-      }
+      userControler.setUser(newUser);
       return true;
     }
 
@@ -156,7 +160,7 @@ class SignUpScreen extends StatelessWidget {
                                 if (birthDay.isEmpty) {
                                   return "Digite sua data de nascimento";
                                 }
-                                return "";
+                                return null;
                               },
                               keyboardtype: TextInputType.datetime,
                             ),
@@ -168,17 +172,13 @@ class SignUpScreen extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 40),
                       child: ButtonWidget(
                         enabled: true,
-                        function: () {
-                          _submitSignUp().then(
-                            (value) {
-                              if (value) {
-                                Navigator.of(context).pushReplacementNamed(
-                                    AppRoutes.completeSignUp);
-                              }
-                              //o popover de erro de cadastro pode vir nesse else também
-                            },
-                          );
-                        },
+                        function: () =>
+                            submitSignUp(userControler).then((result) {
+                          if (result) {
+                            Navigator.of(context)
+                                .pushReplacementNamed(AppRoutes.completeSignUp);
+                          }
+                        }),
                         text: "Enviar",
                         materialIcon: null,
                       ),

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class TextfieldWidget extends StatefulWidget {
   final String? text;
   final String hint;
-  final String Function(String value)? validator;
+  final Function(String value)? validator;
   final TextEditingController? controller;
   final TextInputType? keyboardtype;
   final bool? obscure;

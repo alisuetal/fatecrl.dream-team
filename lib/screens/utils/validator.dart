@@ -1,5 +1,5 @@
 class Validators {
-  static String name(String name) {
+  static name(String name) {
     if (name.isEmpty) {
       return "Escreva seu nome";
     }
@@ -9,10 +9,10 @@ class Validators {
     if (name.length <= 3) {
       return "O nome precisa ter pelo menos três letras";
     }
-    return "";
+    return null;
   }
 
-  static String email(String email, {confirmEmail}) {
+  static email(String email, {confirmEmail}) {
     final emailv = RegExp(
         "^[a-zA-Z0-9.!#\$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*\$");
 
@@ -23,13 +23,13 @@ class Validators {
       return "Email inválido";
     }
     final vConfirmEmail = confirmEmail.toString().isEmpty;
-    if (!vConfirmEmail && confirmEmail != email) {
+    if (vConfirmEmail && confirmEmail != email) {
       return "Os emails não coincidem";
     }
-    return "";
+    return null;
   }
 
-  static String password(String password, {confirmPassword}) {
+  static password(String password, {confirmPassword}) {
     final upperLower = RegExp(r"(?=.*[a-z])(?=.*[A-Z])");
     if (password.isEmpty) {
       return "Digite uma senha";
@@ -44,9 +44,23 @@ class Validators {
       return "A senha precisa ter um número";
     }
     final vConfirmPassword = password.toString().isEmpty;
-    if (!vConfirmPassword && password != confirmPassword) {
+    if (vConfirmPassword && password != confirmPassword) {
       return "As senhas não coincidem";
     }
-    return "";
+    return null;
+  }
+
+  static nickname(String nickname) {
+    if (nickname.isEmpty) {
+      return "Digite seu apelido";
+    }
+    if (nickname.length > 13) {
+      return "O apelido não pode ter mais de 13 caracteres";
+    }
+    RegExp apelidov = RegExp(r'[!@#$%^&*(),.?":{}|<>]');
+    if (nickname.contains(apelidov)) {
+      return "O apelido não pode conter caracteres especiais";
+    }
+    return null;
   }
 }
