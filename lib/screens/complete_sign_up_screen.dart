@@ -33,13 +33,13 @@ class _CompleteSignUpScreenState extends State<CompleteSignUpScreen> {
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
     SponsorsLeagueControler leagueControler = SponsorsLeagueControler();
     leagueControler.loudLeagues().then((_) {
       setState(() {
         _leagues = leagueControler.getLeague();
       });
     });
+    super.initState();
   }
 
   @override
@@ -49,7 +49,6 @@ class _CompleteSignUpScreenState extends State<CompleteSignUpScreen> {
     Future<bool> submitCompleteSignUp(UserControler userControler) async {
       final bool isValid = _formKey.currentState!.validate();
       if (!isValid) {
-        print("a");
         return false;
       }
       _formKey.currentState?.save();
