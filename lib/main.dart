@@ -1,4 +1,3 @@
-import 'package:dream_team/models/user.dart';
 import 'package:dream_team/controllers/user.dart';
 import 'package:dream_team/screens/change_user_info_screen.dart';
 import 'package:dream_team/screens/create_league_screen.dart';
@@ -13,7 +12,6 @@ import 'screens/complete_sign_up_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/log_in_screen.dart';
 import 'screens/player_market_screen.dart';
-import 'screens/tabs_screen.dart';
 import 'tools/app_routes.dart';
 import 'tools/color_utilities.dart';
 
@@ -26,9 +24,7 @@ class Providers extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: const DreamTeam(),
-    );
+    return const DreamTeam();
   }
 }
 
@@ -87,13 +83,13 @@ class DreamTeam extends StatelessWidget {
         routes: {
           AppRoutes.signUp: (context) => SignUpScreen(),
           AppRoutes.logIn: (context) => LogInScreen(),
-          AppRoutes.completeSignUp: (context) => CompleteSignUpScreen(),
+          AppRoutes.completeSignUp: (context) => const CompleteSignUpScreen(),
           AppRoutes.team: (context) => const TeamScreen(),
           AppRoutes.playerMarket: (context) => const PlayerMarketScreen(),
           AppRoutes.league: (context) => const LeagueScreen(),
           AppRoutes.createLeague: (context) => const CreateLeagueScreen(),
           AppRoutes.searchLeagues: (context) => const SearchLeaguesScreen(),
-          AppRoutes.settings: (context) => SettingsScreen(),
+          AppRoutes.settings: (context) => const SettingsScreen(),
           AppRoutes.changeUserInfo: (context) => const ChangeUserInfoScreen(),
         },
       ),

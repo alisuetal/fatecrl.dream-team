@@ -1,11 +1,8 @@
 import 'package:dream_team/components/app_bar_widget.dart';
 import 'package:dream_team/components/inline_information_widget.dart';
-import 'package:dream_team/components/player_team_card_widget.dart';
 import 'package:dream_team/components/screen_holder_widget.dart';
-import 'package:dream_team/components/textfield_with_label_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 import '../components/round_icon_widget.dart';
 import '../components/small_inline_information_widget.dart';
 
@@ -19,6 +16,7 @@ class LeagueScreen extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           SvgPicture.asset(
+            fit: BoxFit.cover,
             "assets/svg/background.svg",
           ),
           Padding(
@@ -40,7 +38,7 @@ class LeagueScreen extends StatelessWidget {
                     Text(
                       "Criador • Criado em 00/00/0000 • 0 participantes",
                       style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                            color: Color(0xffAAAAAA),
+                            color: const Color(0xffAAAAAA),
                           ),
                     ),
                     Padding(

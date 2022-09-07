@@ -3,7 +3,6 @@ import 'package:dream_team/components/button_widget.dart';
 import 'package:dream_team/components/round_icon_widget.dart';
 import 'package:dream_team/components/screen_holder_widget.dart';
 import 'package:dream_team/components/textfield_with_label_widget.dart';
-import 'package:dream_team/models/user.dart';
 import 'package:dream_team/controllers/user.dart';
 import 'package:dream_team/screens/utils/validator.dart';
 import 'package:dream_team/tools/app_routes.dart';
@@ -39,6 +38,7 @@ class LogInScreen extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           SvgPicture.asset(
+            fit: BoxFit.cover,
             "assets/svg/background.svg",
           ),
           Padding(

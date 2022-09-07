@@ -1,13 +1,10 @@
 import 'package:dream_team/components/app_bar_widget.dart';
 import 'package:dream_team/components/button_widget.dart';
 import 'package:dream_team/components/header_profile_picture_widget.dart';
-import 'package:dream_team/components/league_info_widget.dart';
 import 'package:dream_team/components/screen_holder_widget.dart';
 import 'package:dream_team/tools/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import '../components/ghost_button_widget.dart';
 
 class SettingsScreen extends StatelessWidget {
   final void Function()? changePage;
@@ -20,6 +17,7 @@ class SettingsScreen extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           SvgPicture.asset(
+            fit: BoxFit.cover,
             "assets/svg/background.svg",
           ),
           Padding(

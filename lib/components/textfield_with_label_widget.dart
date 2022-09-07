@@ -27,8 +27,10 @@ class TextfieldWithLabelWidget extends StatelessWidget {
       children: [
         Text(
           hint,
-          style: Theme.of(context).textTheme.bodyText1!.copyWith(
-              color: const Color(0xffAAAAAA), fontWeight: FontWeight.w600),
+          style: Theme.of(context)
+              .textTheme
+              .bodyText1!
+              .copyWith(color: const Color(0xffAAAAAA)),
         ),
         Padding(
           padding: const EdgeInsets.only(top: 8.0),

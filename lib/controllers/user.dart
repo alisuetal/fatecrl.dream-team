@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:dream_team/screens/utils/constants.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import '../models/user.dart';
 import 'package:http/http.dart' as http;
 

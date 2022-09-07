@@ -1,13 +1,7 @@
 import 'package:dream_team/components/app_bar_widget.dart';
-import 'package:dream_team/components/header_profile_picture_widget.dart';
 import 'package:dream_team/components/inline_information_widget.dart';
-import 'package:dream_team/components/minimal_drop_down_widget.dart';
-import 'package:dream_team/components/player_position_card_widget.dart';
-import 'package:dream_team/components/player_team_card_widget.dart';
-import 'package:dream_team/components/round_icon_widget.dart';
 import 'package:dream_team/components/screen_holder_widget.dart';
 import 'package:dream_team/components/square_information_widget.dart';
-import 'package:dream_team/tools/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -21,6 +15,7 @@ class UserScreen extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           SvgPicture.asset(
+            fit: BoxFit.cover,
             "assets/svg/background.svg",
           ),
           Padding(
@@ -32,7 +27,7 @@ class UserScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    AppBarWidget(
+                    const AppBarWidget(
                       title: "Perfil",
                     ),
                     Padding(
@@ -43,7 +38,7 @@ class UserScreen extends StatelessWidget {
                             height: 128,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
-                              color: Color.fromARGB(255, 158, 59, 59),
+                              color: const Color.fromARGB(255, 158, 59, 59),
                             ),
                           ),
                           Padding(
@@ -55,9 +50,10 @@ class UserScreen extends StatelessWidget {
                                   height: 128,
                                   width: 128,
                                   decoration: BoxDecoration(
-                                    color: Color.fromARGB(255, 148, 129, 47),
+                                    color:
+                                        const Color.fromARGB(255, 148, 129, 47),
                                     border: Border.all(
-                                      color: Color(0xff222222),
+                                      color: const Color(0xff222222),
                                       width: 4,
                                     ),
                                     borderRadius: BorderRadius.circular(64),
@@ -92,7 +88,7 @@ class UserScreen extends StatelessWidget {
                                     .bodyText1!
                                     .copyWith(
                                       fontSize: 20,
-                                      color: Color(0xff888888),
+                                      color: const Color(0xff888888),
                                     ),
                               ),
                             ],
@@ -103,14 +99,14 @@ class UserScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 40.0),
                       child: Row(
-                        children: [
+                        children: const [
                           Flexible(
                             child: SquareInformationWidget(
                               info: "0",
                               label: "Points",
                             ),
                           ),
-                          const SizedBox(
+                          SizedBox(
                             width: 16,
                           ),
                           Flexible(
@@ -131,8 +127,8 @@ class UserScreen extends StatelessWidget {
                             fontWeight: FontWeight.w600),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 8.0),
                       child: InlineInformationWidget(
                         leftText: "Pontos na última rodada",
                         rightText: "0",

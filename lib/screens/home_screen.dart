@@ -2,7 +2,6 @@ import 'package:dream_team/components/button_widget.dart';
 import 'package:dream_team/components/screen_holder_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 import '../components/ghost_button_widget.dart';
 import '../tools/app_routes.dart';
 
@@ -34,7 +33,7 @@ class HomeScreen extends StatelessWidget {
                         style: Theme.of(context)
                             .textTheme
                             .headline1!
-                            .copyWith(fontSize: 52, letterSpacing: 1),
+                            .copyWith(fontSize: 40, letterSpacing: 1),
                       ),
                       SvgPicture.asset(
                         "assets/svg/logo.svg",
@@ -45,7 +44,10 @@ class HomeScreen extends StatelessWidget {
                         "Escale seu time.\nLidere\nGanhe.",
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.headline1!.copyWith(
-                            fontSize: 40, height: 1.2, letterSpacing: 1),
+                              fontSize: 32,
+                              height: 1.5,
+                              letterSpacing: 1,
+                            ),
                       ),
                     ],
                   ),

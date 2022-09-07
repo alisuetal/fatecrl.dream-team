@@ -1,22 +1,18 @@
-import 'dart:math';
-
 import 'package:dream_team/components/app_bar_widget.dart';
 import 'package:dream_team/components/button_widget.dart';
 import 'package:dream_team/components/round_icon_widget.dart';
 import 'package:dream_team/components/screen_holder_widget.dart';
 import 'package:dream_team/components/textfield_with_label_widget.dart';
-import 'package:dream_team/components/textfield_widget.dart';
 import 'package:dream_team/models/user.dart';
 import 'package:dream_team/controllers/user.dart';
 import 'package:dream_team/screens/utils/validator.dart';
 import 'package:dream_team/tools/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class SignUpScreen extends StatefulWidget {
-  SignUpScreen({Key? key}) : super(key: key);
+  const SignUpScreen({Key? key}) : super(key: key);
 
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
@@ -64,6 +60,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         fit: StackFit.expand,
         children: [
           SvgPicture.asset(
+            fit: BoxFit.cover,
             "assets/svg/background.svg",
           ),
           Padding(

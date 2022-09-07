@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 
 class AmountWidget extends StatelessWidget {
   final int amount;
@@ -28,7 +27,7 @@ class AmountWidget extends StatelessWidget {
                 height: 56,
                 width: 72,
                 color: Theme.of(context).colorScheme.primary,
-                child: Icon(Icons.remove_rounded),
+                child: const Icon(Icons.remove_rounded),
               ),
             ),
             Text(
@@ -41,7 +40,7 @@ class AmountWidget extends StatelessWidget {
                 height: 56,
                 width: 72,
                 color: Theme.of(context).colorScheme.primary,
-                child: Icon(Icons.add_rounded),
+                child: const Icon(Icons.add_rounded),
               ),
             ),
           ],

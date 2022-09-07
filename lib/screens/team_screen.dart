@@ -1,12 +1,10 @@
 import 'package:dream_team/components/app_bar_widget.dart';
-import 'package:dream_team/components/button_widget.dart';
 import 'package:dream_team/components/header_profile_picture_widget.dart';
 import 'package:dream_team/components/minimal_drop_down_widget.dart';
 import 'package:dream_team/components/player_position_card_widget.dart';
 import 'package:dream_team/components/player_team_card_widget.dart';
 import 'package:dream_team/components/round_icon_widget.dart';
 import 'package:dream_team/components/screen_holder_widget.dart';
-import 'package:dream_team/components/textfield_with_label_widget.dart';
 import 'package:dream_team/tools/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -25,6 +23,7 @@ class TeamScreen extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           SvgPicture.asset(
+            fit: BoxFit.cover,
             "assets/svg/background.svg",
           ),
           Padding(
@@ -51,12 +50,12 @@ class TeamScreen extends StatelessWidget {
                           "Tática:",
                           style:
                               Theme.of(context).textTheme.bodyText1!.copyWith(
-                                    color: Color(0xffAAAAAA),
+                                    color: const Color(0xffAAAAAA),
                                   ),
                         ),
                         MinimalDropDownWidget(
                           value: 0,
-                          items: {0: "Tática"},
+                          items: const {0: "Tática"},
                           anchor: (_) {},
                         )
                       ],

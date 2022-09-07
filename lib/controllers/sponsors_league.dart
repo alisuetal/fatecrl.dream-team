@@ -1,13 +1,11 @@
 import 'dart:convert';
-import 'dart:math';
-
 import 'package:dream_team/models/sponsors_league.dart';
 import 'package:dream_team/screens/utils/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
 class SponsorsLeagueControler with ChangeNotifier {
-  List<SponsorsLeague> _leagues = [];
+  final List<SponsorsLeague> _leagues = [];
 
   Future<void> loudLeagues() async {
     _leagues.clear();

@@ -1,15 +1,11 @@
-import 'package:dream_team/components/amount_widget.dart';
 import 'package:dream_team/components/app_bar_widget.dart';
 import 'package:dream_team/components/button_widget.dart';
-import 'package:dream_team/components/inline_information_widget.dart';
 import 'package:dream_team/components/screen_holder_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 import '../components/amount_with_label_widget.dart';
 import '../components/round_icon_widget.dart';
-import '../components/small_inline_information_widget.dart';
 import '../components/textfield_with_label_widget.dart';
 
 class CreateLeagueScreen extends HookWidget {
@@ -23,6 +19,7 @@ class CreateLeagueScreen extends HookWidget {
         fit: StackFit.expand,
         children: [
           SvgPicture.asset(
+            fit: BoxFit.cover,
             "assets/svg/background.svg",
           ),
           Padding(
@@ -41,8 +38,8 @@ class CreateLeagueScreen extends HookWidget {
                         function: () => Navigator.of(context).pop(),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 40),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 40),
                       child: TextfieldWithLabelWidget(
                         text: null,
                         hint: "Nome da liga",

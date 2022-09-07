@@ -1,7 +1,6 @@
 import 'package:dream_team/tools/color_utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 
 class ScreenHolderWidget extends StatelessWidget {
   final Widget content;

@@ -1,11 +1,8 @@
 import 'package:dream_team/components/app_bar_widget.dart';
 import 'package:dream_team/components/button_widget.dart';
-import 'package:dream_team/components/dropdown_widget.dart';
-import 'package:dream_team/components/round_icon_widget.dart';
 import 'package:dream_team/components/screen_holder_widget.dart';
 import 'package:dream_team/components/textfield_with_label_widget.dart';
 import 'package:dream_team/controllers/sponsors_league.dart';
-import 'package:dream_team/models/sponsors_league.dart';
 import 'package:dream_team/models/user.dart';
 import 'package:dream_team/controllers/user.dart';
 import 'package:dream_team/screens/utils/validator.dart';
@@ -33,13 +30,13 @@ class _CompleteSignUpScreenState extends State<CompleteSignUpScreen> {
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
     SponsorsLeagueControler leagueControler = SponsorsLeagueControler();
     leagueControler.loudLeagues().then((_) {
       setState(() {
         _leagues = leagueControler.getLeague();
       });
     });
+    super.initState();
   }
 
   @override
@@ -82,6 +79,7 @@ class _CompleteSignUpScreenState extends State<CompleteSignUpScreen> {
         fit: StackFit.expand,
         children: [
           SvgPicture.asset(
+            fit: BoxFit.cover,
             "assets/svg/background.svg",
           ),
           Padding(
@@ -142,7 +140,7 @@ class _CompleteSignUpScreenState extends State<CompleteSignUpScreen> {
                           textAlign: TextAlign.center,
                           style:
                               Theme.of(context).textTheme.bodyText2!.copyWith(
-                                    color: Color(0xff888888),
+                                    color: const Color(0xff888888),
                                   ),
                         ),
                       ),

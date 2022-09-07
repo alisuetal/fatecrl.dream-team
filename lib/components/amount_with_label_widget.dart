@@ -1,8 +1,6 @@
 import 'package:dream_team/components/amount_widget.dart';
 import 'package:flutter/material.dart';
 
-import 'textfield_widget.dart';
-
 class AmountWithLabelWidget extends StatelessWidget {
   final String hint;
   final void Function() onDecrease;
