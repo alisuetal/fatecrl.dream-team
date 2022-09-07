@@ -10,4 +10,5 @@ class AppRoutes {
   static const searchLeagues = "/searchLeagues";
   static const settings = "/settings";
   static const changeUserInfo = "changeUserInfo";
+  static const tabsScreen = "/home";
 }

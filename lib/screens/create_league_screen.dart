@@ -19,7 +19,6 @@ class CreateLeagueScreen extends HookWidget {
         fit: StackFit.expand,
         children: [
           SvgPicture.asset(
-            fit: BoxFit.cover,
             "assets/svg/background.svg",
           ),
           Padding(

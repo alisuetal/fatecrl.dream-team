@@ -23,7 +23,6 @@ class TeamScreen extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           SvgPicture.asset(
-            fit: BoxFit.cover,
             "assets/svg/background.svg",
           ),
           Padding(

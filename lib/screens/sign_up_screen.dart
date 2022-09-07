@@ -28,9 +28,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final UserControler userControler = Provider.of<UserControler>(context);
+    final UserController userController = Provider.of<UserController>(context);
 
-    Future<bool> submitSignUp(UserControler userControler) async {
+    Future<bool> submitSignUp(UserController userController) async {
       final bool isValid = _formKey.currentState!.validate();
       if (!isValid) {
         return false;
@@ -38,7 +38,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       _formKey.currentState?.save();
 
       final bool chekExistEmail =
-          await userControler.chekExistEmail(_emailController.text);
+          await userController.checkExistEmail(_emailController.text);
       if (!chekExistEmail) {
         //  mostrar popover de erro
         print("Email já cadastrado");
@@ -51,7 +51,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         password: _passwordController.text,
         birthday: DateTime.now(),
       );
-      userControler.setUser(newUser);
+      userController.setUser(newUser);
       return true;
     }
 
@@ -60,7 +60,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
         fit: StackFit.expand,
         children: [
           SvgPicture.asset(
-            fit: BoxFit.cover,
             "assets/svg/background.svg",
           ),
           Padding(
@@ -170,7 +169,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       child: ButtonWidget(
                         enabled: true,
                         function: () =>
-                            submitSignUp(userControler).then((result) {
+                            submitSignUp(userController).then((result) {
                           if (result) {
                             Navigator.of(context)
                                 .pushReplacementNamed(AppRoutes.completeSignUp);

@@ -2,9 +2,11 @@ import 'package:dream_team/components/app_bar_widget.dart';
 import 'package:dream_team/components/button_widget.dart';
 import 'package:dream_team/components/header_profile_picture_widget.dart';
 import 'package:dream_team/components/screen_holder_widget.dart';
+import 'package:dream_team/controllers/user.dart';
 import 'package:dream_team/tools/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 class SettingsScreen extends StatelessWidget {
   final void Function()? changePage;
@@ -12,12 +14,13 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final UserController user = Provider.of<UserController>(context);
+    print(user.user.email);
     return ScreenHolderWidget(
       content: Stack(
         fit: StackFit.expand,
         children: [
           SvgPicture.asset(
-            fit: BoxFit.cover,
             "assets/svg/background.svg",
           ),
           Padding(
@@ -47,9 +50,10 @@ class SettingsScreen extends StatelessWidget {
                             AppRoutes.changeUserInfo,
                             arguments: [
                               "Apelido",
-                              true,
                               false,
-                              "User123",
+                              false,
+                              user.user.nickname,
+                              100
                             ],
                           );
                         },
@@ -65,9 +69,9 @@ class SettingsScreen extends StatelessWidget {
                             AppRoutes.changeUserInfo,
                             arguments: [
                               "E-mail",
+                              false,
                               true,
-                              true,
-                              "user@gmail.com",
+                              user.user.email,
                             ],
                           );
                         },
@@ -83,9 +87,9 @@ class SettingsScreen extends StatelessWidget {
                             AppRoutes.changeUserInfo,
                             arguments: [
                               "Senha",
-                              false,
                               true,
-                              "Senha123",
+                              true,
+                              user.user.password,
                             ],
                           );
                         },

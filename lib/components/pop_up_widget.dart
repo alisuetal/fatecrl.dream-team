@@ -50,12 +50,13 @@ class PopUpWidget extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(
-                  height: 4,
+                  height: 8,
                 ),
                 Text(
                   text,
                   style: const TextStyle(
-                    fontSize: 20,
+                    fontSize: 18,
+                    color: Colors.white54,
                   ),
                 ),
               ],

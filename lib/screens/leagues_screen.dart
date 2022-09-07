@@ -20,7 +20,6 @@ class LeaguesScreen extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           SvgPicture.asset(
-            fit: BoxFit.cover,
             "assets/svg/background.svg",
           ),
           Padding(

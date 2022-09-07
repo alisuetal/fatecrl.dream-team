@@ -41,9 +41,9 @@ class _CompleteSignUpScreenState extends State<CompleteSignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final UserControler userControler = Provider.of<UserControler>(context);
+    final UserController userControler = Provider.of<UserController>(context);
 
-    Future<bool> submitCompleteSignUp(UserControler userControler) async {
+    Future<bool> submitCompleteSignUp(UserController userControler) async {
       final bool isValid = _formKey.currentState!.validate();
       if (!isValid) {
         print("a");
@@ -79,7 +79,6 @@ class _CompleteSignUpScreenState extends State<CompleteSignUpScreen> {
         fit: StackFit.expand,
         children: [
           SvgPicture.asset(
-            fit: BoxFit.cover,
             "assets/svg/background.svg",
           ),
           Padding(

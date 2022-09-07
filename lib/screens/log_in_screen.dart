@@ -4,10 +4,12 @@ import 'package:dream_team/components/round_icon_widget.dart';
 import 'package:dream_team/components/screen_holder_widget.dart';
 import 'package:dream_team/components/textfield_with_label_widget.dart';
 import 'package:dream_team/controllers/user.dart';
+import 'package:dream_team/models/user.dart';
 import 'package:dream_team/screens/utils/validator.dart';
 import 'package:dream_team/tools/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 class LogInScreen extends StatelessWidget {
   LogInScreen({Key? key}) : super(key: key);
@@ -16,15 +18,14 @@ class LogInScreen extends StatelessWidget {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  Future<bool> _submitSignIn() async {
+  Future<bool> _submitSignIn(UserController userController) async {
     final bool isValid = _formKey.currentState!.validate();
     if (!isValid) {
       return false;
     }
     _formKey.currentState?.save();
-    UserControler controler = UserControler();
-    final bool signIn =
-        await controler.signIn(_emailController.text, _passwordController.text);
+    final bool signIn = await userController.signIn(
+        _emailController.text, _passwordController.text);
     if (signIn) {
       return true;
     }
@@ -33,12 +34,12 @@ class LogInScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final UserController userController = Provider.of<UserController>(context);
     return ScreenHolderWidget(
       content: Stack(
         fit: StackFit.expand,
         children: [
           SvgPicture.asset(
-            fit: BoxFit.cover,
             "assets/svg/background.svg",
           ),
           Padding(
@@ -88,11 +89,12 @@ class LogInScreen extends StatelessWidget {
                             child: ButtonWidget(
                               enabled: true,
                               function: () {
-                                _submitSignIn().then(
+                                _submitSignIn(userController).then(
                                   ((value) {
                                     if (value) {
                                       Navigator.of(context)
-                                          .pushReplacementNamed(AppRoutes.team);
+                                          .pushReplacementNamed(
+                                              AppRoutes.tabsScreen);
                                     }
                                   }),
                                 );

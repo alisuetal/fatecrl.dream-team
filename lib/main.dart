@@ -4,8 +4,10 @@ import 'package:dream_team/screens/create_league_screen.dart';
 import 'package:dream_team/screens/league_screen.dart';
 import 'package:dream_team/screens/search_leagues_screen.dart';
 import 'package:dream_team/screens/settings_screen.dart';
+import 'package:dream_team/screens/tabs_screen.dart';
 import 'package:dream_team/screens/team_screen.dart';
 import 'package:dream_team/screens/sign_up_screen.dart';
+import 'package:dream_team/screens/user_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'screens/complete_sign_up_screen.dart';
@@ -36,7 +38,7 @@ class DreamTeam extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => UserControler(),
+          create: (_) => UserController(),
         ),
       ],
       child: MaterialApp(
@@ -81,6 +83,7 @@ class DreamTeam extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         initialRoute: AppRoutes.home,
         routes: {
+          AppRoutes.tabsScreen: (context) => TabsScreen(),
           AppRoutes.signUp: (context) => SignUpScreen(),
           AppRoutes.logIn: (context) => LogInScreen(),
           AppRoutes.completeSignUp: (context) => const CompleteSignUpScreen(),
@@ -90,7 +93,7 @@ class DreamTeam extends StatelessWidget {
           AppRoutes.createLeague: (context) => const CreateLeagueScreen(),
           AppRoutes.searchLeagues: (context) => const SearchLeaguesScreen(),
           AppRoutes.settings: (context) => const SettingsScreen(),
-          AppRoutes.changeUserInfo: (context) => const ChangeUserInfoScreen(),
+          AppRoutes.changeUserInfo: (context) => ChangeUserInfoScreen(),
         },
       ),
     );
