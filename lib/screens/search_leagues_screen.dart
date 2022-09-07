@@ -1,6 +1,5 @@
 import 'package:dream_team/components/app_bar_widget.dart';
 import 'package:dream_team/components/league_info_widget.dart';
-import 'package:dream_team/components/player_team_card_widget.dart';
 import 'package:dream_team/components/screen_holder_widget.dart';
 import 'package:dream_team/components/textfield_with_label_widget.dart';
 import 'package:flutter/material.dart';
@@ -37,8 +36,8 @@ class SearchLeaguesScreen extends StatelessWidget {
                         function: () => Navigator.of(context).pop(),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 40),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 40),
                       child: TextfieldWithLabelWidget(
                         hint: "Nome da liga ou código",
                       ),

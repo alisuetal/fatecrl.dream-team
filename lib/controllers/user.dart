@@ -1,11 +1,10 @@
 import 'dart:convert';
 import 'package:dream_team/screens/utils/constants.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import '../models/user.dart';
 import 'package:http/http.dart' as http;
 
-class UserControler with ChangeNotifier {
+class UserController with ChangeNotifier {
   late User user;
 
   setUser(User user) {
@@ -88,7 +87,7 @@ class UserControler with ChangeNotifier {
     return false;
   }
 
-  Future<bool> chekExistEmail(String email) async {
+  Future<bool> checkExistEmail(String email) async {
     const url = "${Constants.baseUrl}User/CheckEmail";
     final response = await http.post(
       Uri.parse(url),
@@ -111,5 +110,86 @@ class UserControler with ChangeNotifier {
       return "${birthday.year}-${birthday.month < 10 ? "0${birthday.month}" : birthday.month}-${birthday.day < 10 ? "0${birthday.day}" : birthday.day}";
     }
     return "";
+  }
+
+  Future<User?> getUser(String email) async {
+    String url = "${Constants.baseUrl}User/GetUser?email=$email";
+    final response = await http.get(
+      Uri.parse(url),
+    );
+    if (response.statusCode == 201) {
+      final data = jsonDecode(response.body);
+      for (var u in data) {
+        User user = User(
+          name: u['name'],
+          email: u['email'],
+          birthday: DateTime.parse(u['birthday']),
+          leonita: int.parse(u['leonita']),
+          ametista: int.parse(u['ametista']),
+          password: u['password'],
+          nickname: u['nickname'],
+          point: int.parse(u['point']),
+          sponsorsLeague: u['sponsorsLeague'],
+        );
+        setUser(user);
+      }
+      return user;
+    } else if (response.statusCode == 400) {
+      return null;
+    } else if (response.statusCode == 500) {
+      return null;
+    }
+    return null;
+  }
+
+  Future<bool> changeNickname(String email, String nickname) async {
+    const url = "${Constants.baseUrl}User/ChangeNickname";
+    final response = await http.post(
+      Uri.parse(url),
+      body: {
+        'email': email,
+        'nickname': nickname,
+      },
+    );
+    if (response.statusCode == 204) {
+      user.nickname = nickname;
+      notifyListeners();
+      return true;
+    }
+    return false;
+  }
+
+  Future<bool> changeEmail(String email, String newEmail) async {
+    const url = "${Constants.baseUrl}User/ChangeEmail";
+    final response = await http.post(
+      Uri.parse(url),
+      body: {
+        'email': email,
+        'newEmail': newEmail,
+      },
+    );
+    if (response.statusCode == 204) {
+      user.email = newEmail;
+      notifyListeners();
+      return true;
+    }
+    return false;
+  }
+
+  Future<bool> changePassword(String email, String password) async {
+    const url = "${Constants.baseUrl}User/ChangePassword";
+    final response = await http.post(
+      Uri.parse(url),
+      body: {
+        'email': email,
+        'password': password,
+      },
+    );
+    if (response.statusCode == 204) {
+      user.password = password;
+      notifyListeners();
+      return true;
+    }
+    return false;
   }
 }

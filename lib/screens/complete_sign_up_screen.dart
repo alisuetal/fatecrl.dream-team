@@ -1,11 +1,8 @@
 import 'package:dream_team/components/app_bar_widget.dart';
 import 'package:dream_team/components/button_widget.dart';
-import 'package:dream_team/components/dropdown_widget.dart';
-import 'package:dream_team/components/round_icon_widget.dart';
 import 'package:dream_team/components/screen_holder_widget.dart';
 import 'package:dream_team/components/textfield_with_label_widget.dart';
 import 'package:dream_team/controllers/sponsors_league.dart';
-import 'package:dream_team/models/sponsors_league.dart';
 import 'package:dream_team/models/user.dart';
 import 'package:dream_team/controllers/user.dart';
 import 'package:dream_team/screens/utils/validator.dart';
@@ -44,9 +41,9 @@ class _CompleteSignUpScreenState extends State<CompleteSignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final UserControler userControler = Provider.of<UserControler>(context);
+    final UserController userControler = Provider.of<UserController>(context);
 
-    Future<bool> submitCompleteSignUp(UserControler userControler) async {
+    Future<bool> submitCompleteSignUp(UserController userControler) async {
       final bool isValid = _formKey.currentState!.validate();
       if (!isValid) {
         return false;
@@ -141,7 +138,7 @@ class _CompleteSignUpScreenState extends State<CompleteSignUpScreen> {
                           textAlign: TextAlign.center,
                           style:
                               Theme.of(context).textTheme.bodyText2!.copyWith(
-                                    color: Color(0xff888888),
+                                    color: const Color(0xff888888),
                                   ),
                         ),
                       ),

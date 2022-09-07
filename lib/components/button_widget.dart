@@ -25,7 +25,7 @@ class ButtonWidget extends StatelessWidget {
           color: enabled
               ? Theme.of(context).colorScheme.primary
               : Theme.of(context).colorScheme.primary.withOpacity(0.4),
-          borderRadius: const BorderRadius.all(Radius.circular(28)),
+          borderRadius: const BorderRadius.all(Radius.circular(30)),
         ),
         child: Padding(
           padding: const EdgeInsets.only(

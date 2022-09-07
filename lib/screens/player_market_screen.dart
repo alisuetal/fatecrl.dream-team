@@ -42,7 +42,7 @@ class PlayerMarketScreen extends StatelessWidget {
                           "Posição: ",
                           style:
                               Theme.of(context).textTheme.bodyText1!.copyWith(
-                                    color: Color(0xffAAAAAA),
+                                    color: const Color(0xffAAAAAA),
                                   ),
                         ),
                         Text(
@@ -56,8 +56,8 @@ class PlayerMarketScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 40),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 40),
                       child: TextfieldWithLabelWidget(
                         text: null,
                         hint: "Pesquisar jogador",

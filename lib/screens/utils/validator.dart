@@ -34,7 +34,7 @@ class Validators {
     if (password.isEmpty) {
       return "Digite uma senha";
     }
-    if (password.length <= 8) {
+    if (password.length < 8) {
       return "A senha precisa ter pelo menos oito caracteres";
     }
     if (!password.contains(upperLower)) {

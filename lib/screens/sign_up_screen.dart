@@ -1,22 +1,18 @@
-import 'dart:math';
-
 import 'package:dream_team/components/app_bar_widget.dart';
 import 'package:dream_team/components/button_widget.dart';
 import 'package:dream_team/components/round_icon_widget.dart';
 import 'package:dream_team/components/screen_holder_widget.dart';
 import 'package:dream_team/components/textfield_with_label_widget.dart';
-import 'package:dream_team/components/textfield_widget.dart';
 import 'package:dream_team/models/user.dart';
 import 'package:dream_team/controllers/user.dart';
 import 'package:dream_team/screens/utils/validator.dart';
 import 'package:dream_team/tools/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class SignUpScreen extends StatefulWidget {
-  SignUpScreen({Key? key}) : super(key: key);
+  const SignUpScreen({Key? key}) : super(key: key);
 
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
@@ -32,9 +28,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final UserControler userControler = Provider.of<UserControler>(context);
+    final UserController userController = Provider.of<UserController>(context);
 
-    Future<bool> submitSignUp(UserControler userControler) async {
+    Future<bool> submitSignUp(UserController userController) async {
       final bool isValid = _formKey.currentState!.validate();
       if (!isValid) {
         return false;
@@ -42,7 +38,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       _formKey.currentState?.save();
 
       final bool chekExistEmail =
-          await userControler.chekExistEmail(_emailController.text);
+          await userController.checkExistEmail(_emailController.text);
       if (!chekExistEmail) {
         //  mostrar popover de erro
         print("Email já cadastrado");
@@ -55,7 +51,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         password: _passwordController.text,
         birthday: DateTime.now(),
       );
-      userControler.setUser(newUser);
+      userController.setUser(newUser);
       return true;
     }
 
@@ -173,7 +169,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       child: ButtonWidget(
                         enabled: true,
                         function: () =>
-                            submitSignUp(userControler).then((result) {
+                            submitSignUp(userController).then((result) {
                           if (result) {
                             Navigator.of(context)
                                 .pushReplacementNamed(AppRoutes.completeSignUp);

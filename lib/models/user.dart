@@ -1,13 +1,13 @@
 class User {
-  final String? name;
-  final String? email;
-  final String? password;
+  String? name;
+  String? email;
+  String? password;
   final DateTime? birthday;
-  final int? leonita;
-  final int? ametista;
-  final String? nickname;
-  final int? point;
-  final int? sponsorsLeague;
+  int? leonita;
+  int? ametista;
+  String? nickname;
+  int? point;
+  int? sponsorsLeague;
 
   User({
     this.name,
