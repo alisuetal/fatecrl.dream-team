@@ -1,11 +1,12 @@
 import 'package:dream_team/components/app_bar_widget.dart';
 import 'package:dream_team/components/button_widget.dart';
+import 'package:dream_team/components/pop_up_widget.dart';
 import 'package:dream_team/components/round_icon_widget.dart';
 import 'package:dream_team/components/screen_holder_widget.dart';
 import 'package:dream_team/components/textfield_with_label_widget.dart';
 import 'package:dream_team/controllers/user.dart';
 import 'package:dream_team/models/user.dart';
-import 'package:dream_team/screens/utils/validator.dart';
+import 'package:dream_team/utils/validator.dart';
 import 'package:dream_team/tools/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -18,20 +19,16 @@ class LogInScreen extends StatelessWidget {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-<<<<<<< HEAD
-  Future<bool> _submitSignIn() async {
-    return true;
-=======
   Future<bool> _submitSignIn(UserController userController) async {
->>>>>>> fd411c9ac9db8fb385b4fffff70eb82d3c9f2cbf
-    final bool isValid = _formKey.currentState!.validate();
-    if (!isValid) {
-      return false;
-    }
-    _formKey.currentState?.save();
-    UserControler controler = UserControler();
+    // final bool isValid = _formKey.currentState!.validate();
+    // if (!isValid) {
+    //   return false;
+    // }
+    // _formKey.currentState?.save();
+    // final bool signIn = await userController.signIn(
+    //     _emailController.text, _passwordController.text);
     final bool signIn =
-        await controler.signIn(_emailController.text, _passwordController.text);
+        await userController.signIn("gabriel1@gmail.com", "doVal13\$\$\$");
     if (signIn) {
       return true;
     }
@@ -101,6 +98,12 @@ class LogInScreen extends StatelessWidget {
                                       Navigator.of(context)
                                           .pushReplacementNamed(
                                               AppRoutes.tabsScreen);
+                                    } else {
+                                      const PopUpWidget(
+                                        title: "Erro",
+                                        text: "E-mail ou senha incorretos",
+                                        success: false,
+                                      );
                                     }
                                   }),
                                 );

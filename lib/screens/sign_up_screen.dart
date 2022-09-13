@@ -1,11 +1,12 @@
 import 'package:dream_team/components/app_bar_widget.dart';
 import 'package:dream_team/components/button_widget.dart';
+import 'package:dream_team/components/pop_up_widget.dart';
 import 'package:dream_team/components/round_icon_widget.dart';
 import 'package:dream_team/components/screen_holder_widget.dart';
 import 'package:dream_team/components/textfield_with_label_widget.dart';
 import 'package:dream_team/models/user.dart';
 import 'package:dream_team/controllers/user.dart';
-import 'package:dream_team/screens/utils/validator.dart';
+import 'package:dream_team/utils/validator.dart';
 import 'package:dream_team/tools/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -40,8 +41,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
       final bool chekExistEmail =
           await userController.checkExistEmail(_emailController.text);
       if (!chekExistEmail) {
-        //  mostrar popover de erro
-        print("Email já cadastrado");
         return false;
       }
 
@@ -173,6 +172,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           if (result) {
                             Navigator.of(context)
                                 .pushReplacementNamed(AppRoutes.completeSignUp);
+                          } else {
+                            const PopUpWidget(
+                              title: "Erro",
+                              text: "E-mail já cadastrado",
+                              success: false,
+                            );
                           }
                         }),
                         text: "Enviar",

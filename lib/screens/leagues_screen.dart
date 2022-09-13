@@ -9,10 +9,15 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../components/ghost_button_widget.dart';
 
-class LeaguesScreen extends StatelessWidget {
+class LeaguesScreen extends StatefulWidget {
   final void Function()? changePage;
   const LeaguesScreen({this.changePage, Key? key}) : super(key: key);
 
+  @override
+  State<LeaguesScreen> createState() => _LeaguesScreenState();
+}
+
+class _LeaguesScreenState extends State<LeaguesScreen> {
   @override
   Widget build(BuildContext context) {
     return ScreenHolderWidget(
@@ -36,8 +41,9 @@ class LeaguesScreen extends StatelessWidget {
                       rightWidget: HeaderProfilePictureWidget(
                         imgSrc:
                             "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png",
-                        function:
-                            changePage != null ? () => changePage!() : () {},
+                        function: widget.changePage != null
+                            ? () => widget.changePage!()
+                            : () {},
                       ),
                     ),
                     Padding(

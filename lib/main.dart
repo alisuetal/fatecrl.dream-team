@@ -1,3 +1,5 @@
+import 'package:dream_team/controllers/player.dart';
+import 'package:dream_team/controllers/team.dart';
 import 'package:dream_team/controllers/user.dart';
 import 'package:dream_team/screens/change_user_info_screen.dart';
 import 'package:dream_team/screens/create_league_screen.dart';
@@ -39,6 +41,12 @@ class DreamTeam extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (_) => UserController(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => TeamController(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => PlayerController(),
         ),
       ],
       child: MaterialApp(

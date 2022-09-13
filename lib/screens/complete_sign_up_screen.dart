@@ -1,11 +1,12 @@
 import 'package:dream_team/components/app_bar_widget.dart';
 import 'package:dream_team/components/button_widget.dart';
+import 'package:dream_team/components/pop_up_widget.dart';
 import 'package:dream_team/components/screen_holder_widget.dart';
 import 'package:dream_team/components/textfield_with_label_widget.dart';
 import 'package:dream_team/controllers/sponsors_league.dart';
 import 'package:dream_team/models/user.dart';
 import 'package:dream_team/controllers/user.dart';
-import 'package:dream_team/screens/utils/validator.dart';
+import 'package:dream_team/utils/validator.dart';
 import 'package:dream_team/tools/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -124,6 +125,13 @@ class _CompleteSignUpScreenState extends State<CompleteSignUpScreen> {
                               if (sucsses) {
                                 Navigator.of(context)
                                     .pushReplacementNamed(AppRoutes.team);
+                              } else {
+                                const PopUpWidget(
+                                  title: "Erro",
+                                  text:
+                                      "Houve um erro ao cadastrar, tente novamente",
+                                  success: false,
+                                );
                               }
                             });
                           },

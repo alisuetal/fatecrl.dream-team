@@ -2,17 +2,43 @@ import 'package:dream_team/components/app_bar_widget.dart';
 import 'package:dream_team/components/player_team_card_widget.dart';
 import 'package:dream_team/components/screen_holder_widget.dart';
 import 'package:dream_team/components/textfield_with_label_widget.dart';
+import 'package:dream_team/controllers/player.dart';
+import 'package:dream_team/controllers/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 import '../components/round_icon_widget.dart';
 
-class PlayerMarketScreen extends StatelessWidget {
+class PlayerMarketScreen extends StatefulWidget {
   const PlayerMarketScreen({Key? key}) : super(key: key);
 
   @override
+  State<PlayerMarketScreen> createState() => _PlayerMarketScreenState();
+}
+
+class _PlayerMarketScreenState extends State<PlayerMarketScreen> {
+  final controller = TextEditingController();
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final UserController userController =
+        Provider.of<UserController>(context, listen: false);
     final position = ModalRoute.of(context)?.settings.arguments as String;
+    final PlayerController playerController =
+        Provider.of<PlayerController>(context, listen: false);
+
+    Future<bool> buy() async {
+      return false;
+    }
+
     return ScreenHolderWidget(
       content: Stack(
         fit: StackFit.expand,
@@ -35,6 +61,12 @@ class PlayerMarketScreen extends StatelessWidget {
                         icon: Icons.arrow_back_rounded,
                         function: () => Navigator.of(context).pop(),
                       ),
+                      rightWidget: Text(
+                        "leonitas: ${userController.user.leonita.toString()}",
+                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                              color: const Color(0xffAAAAAA),
+                            ),
+                      ),
                     ),
                     Row(
                       children: [
@@ -51,32 +83,42 @@ class PlayerMarketScreen extends StatelessWidget {
                               .textTheme
                               .bodyText1!
                               .copyWith(
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
+                                  color: Theme.of(context).colorScheme.primary),
                         ),
                       ],
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 40),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 40),
                       child: TextfieldWithLabelWidget(
                         text: null,
                         hint: "Pesquisar jogador",
+                        keyboardtype: TextInputType.name,
+                        controller: controller,
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16),
-                      child: PlayerCardWidget(
-                        imgSrc:
-                            "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png",
-                        name: "Mockup",
-                        team: "Mockup team",
-                        variation: 0.3,
-                        points: 9,
-                        rightWidget: RoundIconWidget(
-                          icon: Icons.add_rounded,
-                          function: () {},
-                        ),
-                      ),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: playerController.sizePlayers(),
+                      itemBuilder: (ctx, index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 16),
+                          child: PlayerCardWidget(
+                            imgSrc: playerController.getImageUrl(index),
+                            name: playerController.getName(index),
+                            team: playerController.getTeam(index),
+                            variation: playerController.getVariation(index),
+                            points: playerController.getPoints(index),
+                            rightWidget: RoundIconWidget(
+                              icon: Icons.add_rounded,
+                              function: () => buy().then((response) {
+                                if (response) {
+                                  Navigator.of(context).pop();
+                                }
+                              }),
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),
