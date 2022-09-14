@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
 class SmallInlineInformationWidget extends StatelessWidget {
+  final String? iconText;
   final String leftText;
   final String rightText;
 
@@ -9,6 +10,7 @@ class SmallInlineInformationWidget extends StatelessWidget {
     Key? key,
     required this.leftText,
     required this.rightText,
+    this.iconText,
   }) : super(key: key);
 
   @override
@@ -29,19 +31,24 @@ class SmallInlineInformationWidget extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(right: 16.0),
-                  child: Transform.rotate(
-                    angle: math.pi / 4,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(2),
-                      child: Container(
-                        height: 12,
-                        width: 12,
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
+                  child: iconText == null
+                      ? Transform.rotate(
+                          angle: math.pi / 4,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(2),
+                            child: Container(
+                              height: 12,
+                              width: 12,
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        )
+                      : Text(
+                          iconText!,
+                          style: Theme.of(context).textTheme.bodyText2,
                         ),
-                      ),
-                    ),
-                  ),
                 ),
                 Text(
                   leftText,

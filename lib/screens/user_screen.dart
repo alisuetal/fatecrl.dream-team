@@ -3,25 +3,17 @@ import 'package:dream_team/components/inline_information_widget.dart';
 import 'package:dream_team/components/screen_holder_widget.dart';
 import 'package:dream_team/components/square_information_widget.dart';
 import 'package:dream_team/controllers/user.dart';
-import 'package:dream_team/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 class UserScreen extends HookWidget {
   const UserScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final user = useState<User?>(null);
-
-    if (user.value == null) {
-      UserController().getUser("alisuetal@gmail.com").then(
-        (value) {
-          value != null ? user.value = value : null;
-        },
-      );
-    }
+    final user = Provider.of<UserController>(context, listen: false);
 
     return ScreenHolderWidget(
       content: Stack(
@@ -85,7 +77,7 @@ class UserScreen extends HookWidget {
                           Column(
                             children: [
                               Text(
-                                user.value?.name ?? "!",
+                                user.user.name ?? "!",
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyText1!
@@ -94,7 +86,7 @@ class UserScreen extends HookWidget {
                                     ),
                               ),
                               Text(
-                                "@${user.value?.nickname}",
+                                "@${user.user.nickname}",
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyText1!
@@ -114,7 +106,7 @@ class UserScreen extends HookWidget {
                         children: [
                           Flexible(
                             child: SquareInformationWidget(
-                              info: user.value?.point.toString() ?? "0",
+                              info: user.user.point.toString(),
                               label: "Points",
                             ),
                           ),
@@ -123,7 +115,7 @@ class UserScreen extends HookWidget {
                           ),
                           Flexible(
                             child: SquareInformationWidget(
-                              info: user.value?.leonita.toString() ?? "0",
+                              info: user.user.leonita.toString(),
                               label: "leonitas",
                             ),
                           ),

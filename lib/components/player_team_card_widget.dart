@@ -5,8 +5,9 @@ class PlayerCardWidget extends StatelessWidget {
   final String name;
   final String team;
   final double variation;
-  final double points;
+  final int points;
   final Widget rightWidget;
+  final int price;
 
   const PlayerCardWidget({
     Key? key,
@@ -16,6 +17,7 @@ class PlayerCardWidget extends StatelessWidget {
     required this.variation,
     required this.points,
     required this.rightWidget,
+    required this.price,
   }) : super(key: key);
 
   @override
@@ -75,7 +77,7 @@ class PlayerCardWidget extends StatelessWidget {
             Row(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(right: 12.0),
+                  padding: const EdgeInsets.only(right: 6),
                   child: Row(
                     children: [
                       Icon(
@@ -92,10 +94,20 @@ class PlayerCardWidget extends StatelessWidget {
                     ],
                   ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 16.0),
+                  child: Text(
+                    points.toString(),
+                    style: const TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
                 Text(
-                  points.toString(),
-                  style: const TextStyle(
-                    fontSize: 22,
+                  "${price.toString()} \$",
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
               ],

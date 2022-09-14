@@ -1,11 +1,13 @@
 import 'package:dream_team/components/app_bar_widget.dart';
 import 'package:dream_team/components/header_profile_picture_widget.dart';
+import 'package:dream_team/components/leonitas_market_widget.dart';
 import 'package:dream_team/components/minimal_drop_down_widget.dart';
 import 'package:dream_team/components/player_position_card_widget.dart';
 import 'package:dream_team/components/player_team_card_widget.dart';
 import 'package:dream_team/components/round_icon_widget.dart';
 import 'package:dream_team/components/screen_holder_widget.dart';
 import 'package:dream_team/controllers/team.dart';
+import 'package:dream_team/controllers/user.dart';
 import 'package:dream_team/tools/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -29,6 +31,8 @@ class _TeamScreenState extends State<TeamScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final UserController userController =
+        Provider.of<UserController>(context, listen: false);
     final PlayerController playerController =
         Provider.of<PlayerController>(context, listen: false);
     TeamController teamController =
@@ -52,13 +56,8 @@ class _TeamScreenState extends State<TeamScreen> {
                   children: [
                     AppBarWidget(
                       title: "Meu Time",
-                      rightWidget: HeaderProfilePictureWidget(
-                        imgSrc:
-                            "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png",
-                        function: widget.changePage != null
-                            ? () => widget.changePage!()
-                            : () {},
-                      ),
+                      rightWidget: LeonitasMarketWidget(
+                          leonitas: userController.user.leonita!),
                     ),
                     Row(
                       children: [

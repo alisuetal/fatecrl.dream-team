@@ -55,12 +55,19 @@ class LeagueInfoWidget extends StatelessWidget {
               ),
               if (players == null)
                 LeagueColumnInfoWidget(
-                    info: position!.toString(), label: "Pos."),
+                  info: position!.toString(),
+                  label: "Pos.",
+                ),
               if (players == null)
-                LeagueColumnInfoWidget(info: points!.toString(), label: "Pts."),
+                LeagueColumnInfoWidget(
+                  info: points!.toString(),
+                  label: "Pts.",
+                ),
               if (players != null)
                 LeagueColumnInfoWidget(
-                    info: players!.toString(), label: "Partic."),
+                  info: players!.toString(),
+                  label: "Partic.",
+                ),
               RoundIconWidget(
                 icon: Icons.arrow_forward_ios_rounded,
                 function: () => onTap(),

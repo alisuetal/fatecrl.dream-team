@@ -85,6 +85,11 @@ class _LeagueScreenState extends State<LeagueScreen> {
                             fontWeight: FontWeight.w600),
                       ),
                     ),
+                    SmallInlineInformationWidget(
+                      iconText: "#1",
+                      leftText: "jogador",
+                      rightText: "300 pts",
+                    ),
                     ListView.builder(
                       itemCount: sponsorLeagueController.getMembersLength(),
                       shrinkWrap: true,

@@ -33,8 +33,8 @@ class SquareInformationWidget extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(
-                      left: 3,
-                      top: 3,
+                      left: 2,
+                      top: 2,
                     ),
                     child: Text(
                       info,

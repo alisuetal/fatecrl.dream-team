@@ -1,4 +1,5 @@
 import 'package:dream_team/components/app_bar_widget.dart';
+import 'package:dream_team/components/leonitas_market_widget.dart';
 import 'package:dream_team/components/player_team_card_widget.dart';
 import 'package:dream_team/components/screen_holder_widget.dart';
 import 'package:dream_team/components/textfield_with_label_widget.dart';
@@ -61,12 +62,8 @@ class _PlayerMarketScreenState extends State<PlayerMarketScreen> {
                         icon: Icons.arrow_back_rounded,
                         function: () => Navigator.of(context).pop(),
                       ),
-                      rightWidget: Text(
-                        "leonitas: ${userController.user.leonita.toString()}",
-                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                              color: const Color(0xffAAAAAA),
-                            ),
-                      ),
+                      rightWidget: LeonitasMarketWidget(
+                          leonitas: userController.user.leonita!),
                     ),
                     Row(
                       children: [
@@ -107,7 +104,7 @@ class _PlayerMarketScreenState extends State<PlayerMarketScreen> {
                             name: playerController.getName(index),
                             team: playerController.getTeam(index),
                             variation: playerController.getVariation(index),
-                            points: playerController.getPoints(index),
+                            points: playerController.getPoints(index).toInt(),
                             rightWidget: RoundIconWidget(
                               icon: Icons.add_rounded,
                               function: () => buy().then((response) {
@@ -116,6 +113,7 @@ class _PlayerMarketScreenState extends State<PlayerMarketScreen> {
                                 }
                               }),
                             ),
+                            price: 0, //TO-DO: ADD PRICE
                           ),
                         );
                       },
