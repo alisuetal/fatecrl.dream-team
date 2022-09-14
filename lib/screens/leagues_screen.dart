@@ -3,10 +3,12 @@ import 'package:dream_team/components/button_widget.dart';
 import 'package:dream_team/components/header_profile_picture_widget.dart';
 import 'package:dream_team/components/league_info_widget.dart';
 import 'package:dream_team/components/screen_holder_widget.dart';
+import 'package:dream_team/controllers/sponsors_league.dart';
+import 'package:dream_team/controllers/user.dart';
 import 'package:dream_team/tools/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
+import 'package:provider/provider.dart';
 import '../components/ghost_button_widget.dart';
 
 class LeaguesScreen extends StatefulWidget {
@@ -20,6 +22,10 @@ class LeaguesScreen extends StatefulWidget {
 class _LeaguesScreenState extends State<LeaguesScreen> {
   @override
   Widget build(BuildContext context) {
+    final userController = Provider.of<UserController>(context, listen: false);
+    final sponsorLeagueController =
+        Provider.of<SponsorsLeagueController>(context, listen: false);
+
     return ScreenHolderWidget(
       content: Stack(
         fit: StackFit.expand,
@@ -58,12 +64,18 @@ class _LeaguesScreenState extends State<LeaguesScreen> {
                     Padding(
                       padding: const EdgeInsets.only(top: 8),
                       child: LeagueInfoWidget(
-                        name: "Mockup",
-                        creator: "Mockup creator",
-                        position: 1,
-                        points: 12.3,
-                        onTap: () =>
-                            Navigator.of(context).pushNamed(AppRoutes.league),
+                        name: sponsorLeagueController
+                            .getUserLeague(userController.getLeague()),
+                        creator: "",
+                        position: userController.user.position,
+                        points: userController.getPoint(),
+                        onTap: () => sponsorLeagueController
+                            .getLeagueMembers(
+                                userController.user.sponsorsLeague ?? 0)
+                            .then(
+                              (_) => Navigator.of(context)
+                                  .pushNamed(AppRoutes.league),
+                            ),
                       ),
                     ),
                     Padding(

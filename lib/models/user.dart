@@ -8,6 +8,7 @@ class User {
   String? nickname;
   int? point;
   int? sponsorsLeague;
+  int? position;
 
   User({
     this.name,
@@ -19,5 +20,6 @@ class User {
     this.nickname,
     this.point,
     this.sponsorsLeague,
+    this.position,
   });
 }

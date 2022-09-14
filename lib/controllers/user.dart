@@ -24,6 +24,7 @@ class UserController with ChangeNotifier {
     if (response.statusCode == 201) {
       final data = jsonDecode(response.body);
       for (var u in data) {
+        final position = await getPosition(u['nickname'], u['sponsorsLeague']);
         User user = User(
           name: u['name'],
           email: u['email'],
@@ -34,6 +35,7 @@ class UserController with ChangeNotifier {
           nickname: u['nickname'],
           point: int.parse(u['point']),
           sponsorsLeague: u['sponsorsLeague'],
+          position: position,
         );
         setUser(user);
       }
@@ -119,7 +121,9 @@ class UserController with ChangeNotifier {
     );
     if (response.statusCode == 201) {
       final data = jsonDecode(response.body);
+
       for (var u in data) {
+        final position = await getPosition(u['nickname'], u['sponsorsLeague']);
         User user = User(
           name: u['name'],
           email: u['email'],
@@ -130,6 +134,7 @@ class UserController with ChangeNotifier {
           nickname: u['nickname'],
           point: int.parse(u['point']),
           sponsorsLeague: u['sponsorsLeague'],
+          position: position,
         );
         setUser(user);
       }
@@ -140,6 +145,22 @@ class UserController with ChangeNotifier {
       return null;
     }
     return null;
+  }
+
+  Future<int> getPosition(String nickname, int sponsorLeague) async {
+    String url = "${Constants.baseUrl}User/GetUserPosition";
+    final response = await http.post(
+      Uri.parse(url),
+      body: {
+        'sponsorLeague': sponsorLeague.toString(),
+        'nickname': nickname,
+      },
+    );
+    if (response.statusCode == 201) {
+      final data = jsonDecode(response.body);
+      return data[0];
+    }
+    return 0;
   }
 
   Future<bool> changeNickname(String email, String nickname) async {
@@ -191,5 +212,13 @@ class UserController with ChangeNotifier {
       return true;
     }
     return false;
+  }
+
+  int getLeague() {
+    return user.sponsorsLeague ?? 0;
+  }
+
+  double getPoint() {
+    return double.parse(user.point.toString());
   }
 }

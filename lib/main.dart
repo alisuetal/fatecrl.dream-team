@@ -1,6 +1,8 @@
 import 'package:dream_team/controllers/player.dart';
+import 'package:dream_team/controllers/sponsors_league.dart';
 import 'package:dream_team/controllers/team.dart';
 import 'package:dream_team/controllers/user.dart';
+import 'package:dream_team/models/sponsors_league.dart';
 import 'package:dream_team/screens/change_user_info_screen.dart';
 import 'package:dream_team/screens/create_league_screen.dart';
 import 'package:dream_team/screens/league_screen.dart';
@@ -47,6 +49,9 @@ class DreamTeam extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => PlayerController(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => SponsorsLeagueController(),
         ),
       ],
       child: MaterialApp(

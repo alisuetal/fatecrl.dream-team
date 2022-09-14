@@ -4,6 +4,7 @@ import 'package:dream_team/components/pop_up_widget.dart';
 import 'package:dream_team/components/round_icon_widget.dart';
 import 'package:dream_team/components/screen_holder_widget.dart';
 import 'package:dream_team/components/textfield_with_label_widget.dart';
+import 'package:dream_team/controllers/sponsors_league.dart';
 import 'package:dream_team/controllers/user.dart';
 import 'package:dream_team/models/user.dart';
 import 'package:dream_team/utils/validator.dart';
@@ -37,6 +38,8 @@ class LogInScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final sLeague =
+        Provider.of<SponsorsLeagueController>(context, listen: false);
     final UserController userController = Provider.of<UserController>(context);
     return ScreenHolderWidget(
       content: Stack(
@@ -95,9 +98,10 @@ class LogInScreen extends StatelessWidget {
                                 _submitSignIn(userController).then(
                                   ((value) {
                                     if (value) {
-                                      Navigator.of(context)
-                                          .pushReplacementNamed(
-                                              AppRoutes.tabsScreen);
+                                      sLeague.loudLeagues().then((value) =>
+                                          Navigator.of(context)
+                                              .pushReplacementNamed(
+                                                  AppRoutes.tabsScreen));
                                     } else {
                                       const PopUpWidget(
                                         title: "Erro",

@@ -31,7 +31,7 @@ class _CompleteSignUpScreenState extends State<CompleteSignUpScreen> {
   @override
   void initState() {
     // TODO: implement initState
-    SponsorsLeagueControler leagueControler = SponsorsLeagueControler();
+    SponsorsLeagueController leagueControler = SponsorsLeagueController();
     leagueControler.loudLeagues().then((_) {
       setState(() {
         _leagues = leagueControler.getLeague();
