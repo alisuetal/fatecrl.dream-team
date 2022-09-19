@@ -85,23 +85,17 @@ class _LeagueScreenState extends State<LeagueScreen> {
                             fontWeight: FontWeight.w600),
                       ),
                     ),
-                    SmallInlineInformationWidget(
-                      iconText: "#1",
-                      leftText: "jogador",
-                      rightText: "300 pts",
-                    ),
                     ListView.builder(
                       itemCount: sponsorLeagueController.getMembersLength(),
                       shrinkWrap: true,
                       itemBuilder: (ctx, index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(top: 16),
-                          child: SmallInlineInformationWidget(
-                            leftText: sponsorLeagueController
-                                .getMemberNickname(index),
-                            rightText:
-                                "#${sponsorLeagueController.getMemberPosition(index)}",
-                          ),
+                        return SmallInlineInformationWidget(
+                          iconText:
+                              "#${sponsorLeagueController.getMemberPosition(index)}",
+                          leftText:
+                              sponsorLeagueController.getMemberNickname(index),
+                          rightText:
+                              "${sponsorLeagueController.getMemberPoints(index)} pts",
                         );
                       },
                     ),

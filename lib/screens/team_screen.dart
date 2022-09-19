@@ -80,8 +80,20 @@ class _TeamScreenState extends State<TeamScreen> {
                           },
                           anchor: (int value) {
                             setState(() {
-                              taticId = value;
-                              teamController.setTatic(taticId);
+                              final newLeonitas = userController.user.leonita! +
+                                  teamController.teamValue();
+                              userController
+                                  .upDateLeonita(newLeonitas)
+                                  .then((_) {
+                                teamController
+                                    .clearPlayers(userController.user.email!)
+                                    .then((response) {
+                                  if (response) {
+                                    taticId = value;
+                                    teamController.setTatic(taticId);
+                                  }
+                                });
+                              });
                             });
                           },
                         )
@@ -92,23 +104,45 @@ class _TeamScreenState extends State<TeamScreen> {
                       shrinkWrap: true,
                       itemCount: teamController.taticSize(),
                       itemBuilder: (BuildContext context, int index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(top: 16.0),
-                          child: PlayerPositionCardWidget(
-                            position: teamController.getPosition(index),
-                            onTap: () {
-                              playerController
-                                  .loadPlayers(
-                                      teamController.getPosition(index))
-                                  .then((_) {
-                                Navigator.of(context).pushNamed(
-                                  AppRoutes.playerMarket,
-                                  arguments: teamController.getPosition(index),
-                                );
-                              });
-                            },
-                          ),
-                        );
+                        return !teamController.checkPlayer(index)
+                            ? Padding(
+                                padding: const EdgeInsets.only(top: 16.0),
+                                child: PlayerPositionCardWidget(
+                                  position: teamController.getPosition(index),
+                                  onTap: () {
+                                    playerController
+                                        .loadPlayers(
+                                            teamController.getPosition(index))
+                                        .then((_) {
+                                      Navigator.of(context).pushNamed(
+                                        AppRoutes.playerMarket,
+                                        arguments: [
+                                          teamController.getPosition(index),
+                                          index,
+                                        ],
+                                      );
+                                    });
+                                  },
+                                ),
+                              )
+                            : Padding(
+                                padding: const EdgeInsets.only(top: 16),
+                                child: PlayerCardWidget(
+                                  imgSrc: playerController.getImageUrl(index),
+                                  name: playerController.getName(index),
+                                  team: playerController.getTeam(index),
+                                  variation:
+                                      playerController.getVariation(index),
+                                  points:
+                                      playerController.getPoints(index).toInt(),
+                                  rightWidget: RoundIconWidget(
+                                    icon: Icons.add_rounded,
+                                    function: () => {},
+                                  ),
+                                  price: playerController
+                                      .getPrice(index), //TO-DO: ADD PRICE
+                                ),
+                              );
                       },
                     ),
                   ],

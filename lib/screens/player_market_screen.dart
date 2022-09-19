@@ -1,15 +1,18 @@
 import 'package:dream_team/components/app_bar_widget.dart';
 import 'package:dream_team/components/leonitas_market_widget.dart';
 import 'package:dream_team/components/player_team_card_widget.dart';
+import 'package:dream_team/components/pop_up_widget.dart';
 import 'package:dream_team/components/screen_holder_widget.dart';
 import 'package:dream_team/components/textfield_with_label_widget.dart';
 import 'package:dream_team/controllers/player.dart';
+import 'package:dream_team/controllers/team.dart';
 import 'package:dream_team/controllers/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 import '../components/round_icon_widget.dart';
+import '../models/player.dart';
 
 class PlayerMarketScreen extends StatefulWidget {
   const PlayerMarketScreen({Key? key}) : super(key: key);
@@ -32,12 +35,30 @@ class _PlayerMarketScreenState extends State<PlayerMarketScreen> {
   Widget build(BuildContext context) {
     final UserController userController =
         Provider.of<UserController>(context, listen: false);
-    final position = ModalRoute.of(context)?.settings.arguments as String;
+    final arguments = ModalRoute.of(context)?.settings.arguments as List;
+    final position = arguments[0] as String;
+    final indexArg = arguments[1];
     final PlayerController playerController =
         Provider.of<PlayerController>(context, listen: false);
+    final teamController = Provider.of<TeamController>(context, listen: false);
 
-    Future<bool> buy() async {
-      return false;
+    Future<bool> buy(int index, Player player) async {
+      if (player.price > userController.user.leonita!) {
+        const PopUpWidget(
+          title: "Atenção",
+          text: "Leonitas insuficientes",
+          success: false,
+        );
+        return false;
+      }
+      final newValue = userController.user.leonita! - player.price;
+      final upLeonita = await userController.upDateLeonita(newValue);
+      if (!upLeonita) {
+        return false;
+      }
+
+      return teamController.addPlayer(
+          index, player, userController.user.email ?? "");
     }
 
     return ScreenHolderWidget(
@@ -93,6 +114,10 @@ class _PlayerMarketScreenState extends State<PlayerMarketScreen> {
                         controller: controller,
                       ),
                     ),
+                    IconButton(
+                      icon: const Icon(Icons.search),
+                      onPressed: () {},
+                    ),
                     ListView.builder(
                       shrinkWrap: true,
                       itemCount: playerController.sizePlayers(),
@@ -107,13 +132,18 @@ class _PlayerMarketScreenState extends State<PlayerMarketScreen> {
                             points: playerController.getPoints(index).toInt(),
                             rightWidget: RoundIconWidget(
                               icon: Icons.add_rounded,
-                              function: () => buy().then((response) {
+                              function: () => buy(indexArg,
+                                      playerController.getPlayer(index))
+                                  .then((response) {
                                 if (response) {
-                                  Navigator.of(context).pop();
+                                  setState(() {
+                                    Navigator.of(context).pop();
+                                  });
                                 }
                               }),
                             ),
-                            price: 0, //TO-DO: ADD PRICE
+                            price: playerController
+                                .getPrice(index), //TO-DO: ADD PRICE
                           ),
                         );
                       },

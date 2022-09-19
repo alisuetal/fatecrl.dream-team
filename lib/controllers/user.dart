@@ -12,6 +12,22 @@ class UserController with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<bool> upDateLeonita(int leonita) async {
+    const url = "${Constants.baseUrl}User/UpdateLeonitas";
+    final response = await http.post(
+      Uri.parse(url),
+      body: {
+        'email': user.email,
+        'leonitas': leonita.toString(),
+      },
+    );
+    if (response.statusCode == 201) {
+      user.leonita = leonita;
+      return true;
+    }
+    return false;
+  }
+
   Future<bool> signIn(String email, String password) async {
     const url = "${Constants.baseUrl}User/SignIn";
     final response = await http.post(

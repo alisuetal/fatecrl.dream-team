@@ -10,7 +10,7 @@ class Player {
   final int missShot;
   final int turnOver;
   final String urlImage;
-  final double price;
+  final int price;
   final String team;
 
   Player({

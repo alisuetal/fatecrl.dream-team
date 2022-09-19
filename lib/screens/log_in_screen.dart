@@ -29,7 +29,7 @@ class LogInScreen extends StatelessWidget {
     // final bool signIn = await userController.signIn(
     //     _emailController.text, _passwordController.text);
     final bool signIn =
-        await userController.signIn("novoemail@gmail.com", "NovaSenha123!");
+        await userController.signIn("gabriel1@gmail.com", "dOVal13\$\$\$");
     if (signIn) {
       return true;
     }

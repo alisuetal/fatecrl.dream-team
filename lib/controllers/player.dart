@@ -32,7 +32,7 @@ class PlayerController with ChangeNotifier {
           missShot: int.parse(p['missShot']),
           turnOver: int.parse(p['turnOver']),
           urlImage: p['imgUrl'],
-          price: double.parse(p['price']),
+          price: int.parse(p['price']),
           team: p['team'],
         );
         _players.add(player);
@@ -49,6 +49,10 @@ class PlayerController with ChangeNotifier {
     return _players.elementAt(index).urlImage;
   }
 
+  int getPrice(int index) {
+    return _players.elementAt(index).price;
+  }
+
   String getName(int index) {
     return _players.elementAt(index).name;
   }
@@ -59,6 +63,10 @@ class PlayerController with ChangeNotifier {
 
   String getTeam(int index) {
     return _players.elementAt(index).team;
+  }
+
+  Player getPlayer(int index) {
+    return _players.elementAt(index);
   }
 
   double getVariation(int index) {
