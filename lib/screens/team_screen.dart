@@ -100,13 +100,12 @@ class _TeamScreenState extends State<TeamScreen> {
                       ],
                     ),
                     ListView.builder(
-                      padding: const EdgeInsets.all(8),
                       shrinkWrap: true,
                       itemCount: teamController.taticSize(),
                       itemBuilder: (BuildContext context, int index) {
                         return !teamController.checkPlayer(index)
                             ? Padding(
-                                padding: const EdgeInsets.only(top: 16.0),
+                                padding: const EdgeInsets.only(top: 24),
                                 child: PlayerPositionCardWidget(
                                   position: teamController.getPosition(index),
                                   onTap: () {
@@ -126,7 +125,7 @@ class _TeamScreenState extends State<TeamScreen> {
                                 ),
                               )
                             : Padding(
-                                padding: const EdgeInsets.only(top: 16),
+                                padding: const EdgeInsets.only(top: 24),
                                 child: PlayerCardWidget(
                                   imgSrc: playerController.getImageUrl(index),
                                   name: playerController.getName(index),

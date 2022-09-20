@@ -34,24 +34,18 @@ class TabsScreen extends HookWidget {
     return Stack(
       fit: StackFit.expand,
       children: [
-        Flexible(
-          fit: FlexFit.tight,
-          child: screens[selectedScreenIndex.value],
-        ),
-        Flexible(
-          fit: FlexFit.tight,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(30.0),
-                child: BottomNavigationBarWidget(
-                  onChange: (int index) => selectedScreenIndex.value = index,
-                  pageIndex: selectedScreenIndex.value,
-                ),
-              )
-            ],
-          ),
+        screens[selectedScreenIndex.value],
+        Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(30.0),
+              child: BottomNavigationBarWidget(
+                onChange: (int index) => selectedScreenIndex.value = index,
+                pageIndex: selectedScreenIndex.value,
+              ),
+            )
+          ],
         )
       ],
     );
