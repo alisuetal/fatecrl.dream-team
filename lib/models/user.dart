@@ -7,6 +7,7 @@ class User {
   int? ametista;
   String? nickname;
   int? point;
+  int? tatic;
   int? sponsorsLeague;
   int? position;
 
@@ -19,6 +20,7 @@ class User {
     this.ametista,
     this.nickname,
     this.point,
+    this.tatic,
     this.sponsorsLeague,
     this.position,
   });

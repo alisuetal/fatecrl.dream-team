@@ -50,6 +50,7 @@ class UserController with ChangeNotifier {
           password: u['password'],
           nickname: u['nickname'],
           point: int.parse(u['point']),
+          tatic: int.parse(u['tatic']),
           sponsorsLeague: u['sponsorsLeague'],
           position: position,
         );
@@ -95,6 +96,7 @@ class UserController with ChangeNotifier {
         'password': user.password,
         'nickname': user.nickname,
         'point': user.point.toString(),
+        'tatic': user.tatic.toString(),
         'sponsorsLeague': user.sponsorsLeague.toString(),
       },
     );
@@ -149,6 +151,7 @@ class UserController with ChangeNotifier {
           password: u['password'],
           nickname: u['nickname'],
           point: int.parse(u['point']),
+          tatic: int.parse(u['tatic']),
           sponsorsLeague: u['sponsorsLeague'],
           position: position,
         );

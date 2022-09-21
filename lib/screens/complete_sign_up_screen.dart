@@ -61,6 +61,7 @@ class _CompleteSignUpScreenState extends State<CompleteSignUpScreen> {
         password: user.password,
         nickname: _nickname.text,
         point: 0,
+        tatic: 0,
         sponsorsLeague: leagueId,
       );
 
