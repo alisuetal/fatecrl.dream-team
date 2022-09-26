@@ -28,6 +28,30 @@ class UserController with ChangeNotifier {
     return false;
   }
 
+  Future<bool> signUp() async {
+    const url = "${Constants.baseUrl}User/Insert";
+    final response = await http.post(
+      Uri.parse(url),
+      body: {
+        'name': user.name,
+        'email': user.email,
+        'birthday': parseDate(user.birthday),
+        'leonita': user.leonita.toString(),
+        'ametista': user.ametista.toString(),
+        'password': user.password,
+        'nickname': user.nickname,
+        'point': user.point.toString(),
+        'tatic': user.tatic.toString(),
+        'sponsorsLeague': user.sponsorsLeague.toString(),
+      },
+    );
+    if (response.statusCode == 201) {
+      notifyListeners();
+      return true;
+    }
+    return false;
+  }
+
   Future<bool> signIn(String email, String password) async {
     const url = "${Constants.baseUrl}User/SignIn";
     final response = await http.post(
@@ -81,30 +105,6 @@ class UserController with ChangeNotifier {
         nickname +
         point +
         leagueid;
-  }
-
-  Future<bool> signUp() async {
-    const url = "${Constants.baseUrl}User/Insert";
-    final response = await http.post(
-      Uri.parse(url),
-      body: {
-        'name': user.name,
-        'email': user.email,
-        'birthday': parseDate(user.birthday),
-        'leonita': user.leonita.toString(),
-        'ametista': user.ametista.toString(),
-        'password': user.password,
-        'nickname': user.nickname,
-        'point': user.point.toString(),
-        'tatic': user.tatic.toString(),
-        'sponsorsLeague': user.sponsorsLeague.toString(),
-      },
-    );
-    if (response.statusCode == 201) {
-      notifyListeners();
-      return true;
-    }
-    return false;
   }
 
   Future<bool> checkExistEmail(String email) async {
@@ -227,6 +227,23 @@ class UserController with ChangeNotifier {
     );
     if (response.statusCode == 204) {
       user.password = password;
+      notifyListeners();
+      return true;
+    }
+    return false;
+  }
+
+  Future<bool> changeTatic(String email, int tatic) async {
+    const url = "${Constants.baseUrl}User/UpdateTatic";
+    final response = await http.post(
+      Uri.parse(url),
+      body: {
+        'email': email,
+        'tatic': tatic.toString(),
+      },
+    );
+    if (response.statusCode == 201) {
+      user.tatic = tatic;
       notifyListeners();
       return true;
     }

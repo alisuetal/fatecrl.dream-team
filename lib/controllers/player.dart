@@ -65,10 +65,6 @@ class PlayerController with ChangeNotifier {
     return _players.elementAt(index).team;
   }
 
-  Player getPlayer(int index) {
-    return _players.elementAt(index);
-  }
-
   double getVariation(int index) {
     final player = _players.elementAt(index);
 
@@ -83,5 +79,9 @@ class PlayerController with ChangeNotifier {
     final negative = player.missShot + player.turnOver;
 
     return (positive - negative) / 100;
+  }
+
+  Player getPlayer(int index) {
+    return _players.elementAt(index);
   }
 }

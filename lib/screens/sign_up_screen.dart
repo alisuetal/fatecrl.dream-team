@@ -1,5 +1,6 @@
 import 'package:dream_team/components/app_bar_widget.dart';
 import 'package:dream_team/components/button_widget.dart';
+import 'package:dream_team/components/form_calendar_widget.dart';
 import 'package:dream_team/components/pop_up_widget.dart';
 import 'package:dream_team/components/round_icon_widget.dart';
 import 'package:dream_team/components/screen_holder_widget.dart';
@@ -20,6 +21,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  DateTime? _selectedDate;
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
@@ -41,6 +43,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       final bool chekExistEmail =
           await userController.checkExistEmail(_emailController.text);
       if (!chekExistEmail) {
+        showAlertDialog(context, "Erro", "e-mail já cadastrado", false);
         return false;
       }
 
@@ -48,7 +51,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         name: _nameController.text,
         email: _emailController.text,
         password: _passwordController.text,
-        birthday: DateTime.now(),
+        birthday: _selectedDate,
       );
       userController.setUser(newUser);
       return true;
@@ -143,21 +146,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 16),
-                            child: TextfieldWithLabelWidget(
-                              text: null,
-                              hint: "Data de nascimento:",
-                              validator: (birthDay) {
-                                final DateTime dataMinima = DateTime(
-                                  DateTime.now().year - 18,
-                                  DateTime.now().month,
-                                  DateTime.now().day,
-                                );
-                                if (birthDay.isEmpty) {
-                                  return "Digite sua data de nascimento";
-                                }
-                                return null;
+                            child: FormCalendarWidget(
+                              selectedDate: _selectedDate,
+                              onDateChanged: (newDate) {
+                                setState(() {
+                                  _selectedDate = newDate;
+                                });
                               },
-                              keyboardtype: TextInputType.datetime,
                             ),
                           ),
                         ],
@@ -172,12 +167,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           if (result) {
                             Navigator.of(context)
                                 .pushReplacementNamed(AppRoutes.completeSignUp);
-                          } else {
-                            const PopUpWidget(
-                              title: "Erro",
-                              text: "E-mail já cadastrado",
-                              success: false,
-                            );
                           }
                         }),
                         text: "Enviar",

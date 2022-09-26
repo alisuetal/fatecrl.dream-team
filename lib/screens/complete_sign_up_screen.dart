@@ -56,7 +56,7 @@ class _CompleteSignUpScreenState extends State<CompleteSignUpScreen> {
         name: user.name,
         email: user.email,
         birthday: user.birthday,
-        leonita: 0,
+        leonita: 2000,
         ametista: 0,
         password: user.password,
         nickname: _nickname.text,
@@ -72,6 +72,7 @@ class _CompleteSignUpScreenState extends State<CompleteSignUpScreen> {
       if (signUp) {
         return true;
       }
+      showAlertDialog(context, "Erro", "Ocorreu um erro de conexão", false);
       return false;
     }
 
@@ -125,14 +126,7 @@ class _CompleteSignUpScreenState extends State<CompleteSignUpScreen> {
                             submitCompleteSignUp(userControler).then((sucsses) {
                               if (sucsses) {
                                 Navigator.of(context)
-                                    .pushReplacementNamed(AppRoutes.team);
-                              } else {
-                                const PopUpWidget(
-                                  title: "Erro",
-                                  text:
-                                      "Houve um erro ao cadastrar, tente novamente",
-                                  success: false,
-                                );
+                                    .pushReplacementNamed(AppRoutes.tabsScreen);
                               }
                             });
                           },
