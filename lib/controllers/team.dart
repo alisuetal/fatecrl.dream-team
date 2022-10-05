@@ -119,6 +119,11 @@ class TeamController with ChangeNotifier {
     return player.price;
   }
 
+  int getId(int index) {
+    Player player = _players.elementAt(index);
+    return player.id;
+  }
+
   String getName(int index) {
     Player player = _players.elementAt(index);
     return player.name;
@@ -188,10 +193,30 @@ class TeamController with ChangeNotifier {
   int teamValue() {
     var price = 0;
     for (var p in _players) {
-      Player player = p;
-      price += player.price;
+      if (p.runtimeType != int) {
+        Player player = p;
+        price += player.price;
+      }
     }
     return price;
+  }
+
+  Future<bool> removePlayer(String email, int playerId, int index) async {
+    const url = "${Constants.baseUrl}/Team/RemovePlayer";
+    final response = await http.post(
+      Uri.parse(url),
+      body: {
+        'email': email,
+        'player': playerId.toString(),
+      },
+    );
+    if (response.statusCode == 201) {
+      _players.removeAt(index);
+      _players.insert(index, index);
+      notifyListeners();
+      return true;
+    }
+    return false;
   }
 
   Future<bool> clearPlayers(String email) async {

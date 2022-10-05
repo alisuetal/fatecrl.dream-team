@@ -40,7 +40,19 @@ class _TeamScreenState extends State<TeamScreen> {
     TeamController teamController =
         Provider.of<TeamController>(context, listen: false);
 
-    print(teamController.getPlayers().length);
+    Future<void> clearTeam(int value) async {
+      userController.changeTatic(userController.user.email!, value);
+      teamController.clearPlayers(userController.user.email!);
+      userController.upDateLeonita(
+          (userController.user.leonita! + teamController.teamValue()));
+    }
+
+    Future<void> removePlayer(int index) async {
+      teamController.removePlayer(
+          userController.user.email!, teamController.getId(index), index);
+      userController.upDateLeonita(
+          (userController.user.leonita! + teamController.getPrice(index)));
+    }
 
     return ScreenHolderWidget(
       content: Stack(
@@ -83,17 +95,11 @@ class _TeamScreenState extends State<TeamScreen> {
                             5: '1 Ala, 1 Armador e 3 Pivôs'
                           },
                           anchor: (int value) {
-                            userController
-                                .changeTatic(userController.user.email!, value)
-                                .then((_) {
-                              teamController
-                                  .clearPlayers(userController.user.email!)
-                                  .then((_) {
-                                setState(() {
-                                  teamController.setTatic(value);
-                                  taticId = value;
-                                  print(taticId);
-                                });
+                            clearTeam(value).then((_) {
+                              setState(() {
+                                teamController.setTatic(value);
+                                taticId = value;
+                                print(taticId);
                               });
                             });
                           },
@@ -115,8 +121,14 @@ class _TeamScreenState extends State<TeamScreen> {
                                   points:
                                       teamController.getPoints(index).toInt(),
                                   rightWidget: RoundIconWidget(
-                                    icon: Icons.add_rounded,
-                                    function: () => {},
+                                    icon: Icons.remove,
+                                    function: () =>
+                                        removePlayer(index).then((_) {
+                                      setState(() {
+                                        print(
+                                            "setState aqui não está funcionando");
+                                      });
+                                    }),
                                   ),
                                   price: teamController
                                       .getPrice(index), //TO-DO: ADD PRICE
@@ -137,7 +149,9 @@ class _TeamScreenState extends State<TeamScreen> {
                                           teamController.getPosition(index),
                                           index,
                                         ],
-                                      );
+                                      ).then((_) {
+                                        setState(() {});
+                                      });
                                     });
                                   },
                                 ),
