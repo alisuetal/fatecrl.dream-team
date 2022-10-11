@@ -14,8 +14,8 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final UserController user = Provider.of<UserController>(context);
-    print(user.user.email);
+    final UserController user =
+        Provider.of<UserController>(context, listen: true);
     return ScreenHolderWidget(
       content: Stack(
         fit: StackFit.expand,

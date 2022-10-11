@@ -9,6 +9,7 @@ import 'package:dream_team/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 import '../components/round_icon_widget.dart';
@@ -21,7 +22,8 @@ class ChangeUserInfoScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final UserController userController = Provider.of<UserController>(context);
+    final UserController userController =
+        Provider.of<UserController>(context, listen: true);
     final arguments = ModalRoute.of(context)?.settings.arguments as List;
     final visibility = useState<bool>(arguments[1] as bool);
 

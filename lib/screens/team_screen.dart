@@ -65,6 +65,7 @@ class _TeamScreenState extends State<TeamScreen> {
             child: SizedBox(
               height: MediaQuery.of(context).size.height,
               child: SingleChildScrollView(
+                physics: const ScrollPhysics(),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -107,6 +108,7 @@ class _TeamScreenState extends State<TeamScreen> {
                     ListView.builder(
                       shrinkWrap: true,
                       itemCount: 5,
+                      physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (BuildContext context, int index) {
                         return teamController.isPlayer(index)
                             ? Padding(
@@ -148,6 +150,9 @@ class _TeamScreenState extends State<TeamScreen> {
                                 ),
                               );
                       },
+                    ),
+                    const SizedBox(
+                      height: 160,
                     ),
                   ],
                 ),

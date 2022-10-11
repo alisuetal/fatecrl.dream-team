@@ -25,6 +25,7 @@ class SearchLeaguesScreen extends StatelessWidget {
             child: SizedBox(
               height: MediaQuery.of(context).size.height,
               child: SingleChildScrollView(
+                physics: const ScrollPhysics(),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,6 +63,9 @@ class SearchLeaguesScreen extends StatelessWidget {
                         onTap: () => Navigator.of(context)
                             .pushReplacementNamed(AppRoutes.league),
                       ),
+                    ),
+                    const SizedBox(
+                      height: 160,
                     ),
                   ],
                 ),
