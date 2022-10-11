@@ -73,6 +73,7 @@ class _PlayerMarketScreenState extends State<PlayerMarketScreen> {
             child: SizedBox(
               height: MediaQuery.of(context).size.height,
               child: SingleChildScrollView(
+                physics: const ScrollPhysics(),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -134,6 +135,7 @@ class _PlayerMarketScreenState extends State<PlayerMarketScreen> {
                     ListView.builder(
                       shrinkWrap: true,
                       itemCount: playerController.sizePlayers(),
+                      physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (ctx, index) {
                         return Padding(
                           padding: const EdgeInsets.only(top: 16),
@@ -160,6 +162,9 @@ class _PlayerMarketScreenState extends State<PlayerMarketScreen> {
                           ),
                         );
                       },
+                    ),
+                    const SizedBox(
+                      height: 160,
                     ),
                   ],
                 ),

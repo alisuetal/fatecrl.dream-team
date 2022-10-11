@@ -35,6 +35,7 @@ class _LeagueScreenState extends State<LeagueScreen> {
             child: SizedBox(
               height: MediaQuery.of(context).size.height,
               child: SingleChildScrollView(
+                physics: const ScrollPhysics(),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -87,6 +88,7 @@ class _LeagueScreenState extends State<LeagueScreen> {
                     ),
                     ListView.builder(
                       itemCount: sponsorLeagueController.getMembersLength(),
+                      physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemBuilder: (ctx, index) {
                         return SmallInlineInformationWidget(
@@ -98,6 +100,9 @@ class _LeagueScreenState extends State<LeagueScreen> {
                               "${sponsorLeagueController.getMemberPoints(index)} pts",
                         );
                       },
+                    ),
+                    const SizedBox(
+                      height: 160,
                     ),
                   ],
                 ),

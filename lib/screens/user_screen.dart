@@ -27,6 +27,7 @@ class UserScreen extends HookWidget {
             child: SizedBox(
               height: MediaQuery.of(context).size.height,
               child: SingleChildScrollView(
+                physics: const ScrollPhysics(),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -131,12 +132,8 @@ class UserScreen extends HookWidget {
                             fontWeight: FontWeight.w600),
                       ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 8.0),
-                      child: InlineInformationWidget(
-                        leftText: "Pontos na última rodada",
-                        rightText: "0",
-                      ),
+                    const SizedBox(
+                      height: 160,
                     ),
                   ],
                 ),

@@ -26,6 +26,7 @@ class CreateLeagueScreen extends HookWidget {
             child: SizedBox(
               height: MediaQuery.of(context).size.height,
               child: SingleChildScrollView(
+                physics: const ScrollPhysics(),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,6 +87,9 @@ class CreateLeagueScreen extends HookWidget {
                         function: () {},
                         enabled: true,
                       ),
+                    ),
+                    const SizedBox(
+                      height: 160,
                     ),
                   ],
                 ),

@@ -1,7 +1,12 @@
 import 'package:dream_team/components/small_button_widget.dart';
 import 'package:flutter/material.dart';
 
-showAlertDialog(BuildContext context, String title, String text, bool success) {
+Future<void> showAlertDialog(
+  BuildContext context,
+  String title,
+  String text,
+  bool success,
+) async {
   showDialog(
     context: context,
     builder: (BuildContext context) {

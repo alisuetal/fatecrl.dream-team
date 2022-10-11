@@ -38,6 +38,7 @@ class _LeaguesScreenState extends State<LeaguesScreen> {
             child: SizedBox(
               height: MediaQuery.of(context).size.height,
               child: SingleChildScrollView(
+                physics: const ScrollPhysics(),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -127,7 +128,10 @@ class _LeaguesScreenState extends State<LeaguesScreen> {
                         },
                         color: Theme.of(context).colorScheme.primary,
                       ),
-                    )
+                    ),
+                    const SizedBox(
+                      height: 160,
+                    ),
                   ],
                 ),
               ),

@@ -191,6 +191,7 @@ class UserController with ChangeNotifier {
         'nickname': nickname,
       },
     );
+    print(response.statusCode);
     if (response.statusCode == 204) {
       user.nickname = nickname;
       notifyListeners();
