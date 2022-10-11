@@ -40,7 +40,7 @@ class _PlayerMarketScreenState extends State<PlayerMarketScreen> {
     final indexArg = arguments[1];
     final PlayerController playerController =
         Provider.of<PlayerController>(context, listen: false);
-    final teamController = Provider.of<TeamController>(context, listen: false);
+    final teamController = Provider.of<TeamController>(context);
 
     Future<bool> buy(int index, Player player) async {
       if (player.price > userController.user.leonita!) {
@@ -121,10 +121,14 @@ class _PlayerMarketScreenState extends State<PlayerMarketScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(top: 82, right: 8),
+                              padding: const EdgeInsets.only(top: 75, right: 8),
                               child: IconButton(
                                 icon: const Icon(Icons.search),
-                                onPressed: () {},
+                                onPressed: () {
+                                  playerController
+                                      .searchPlayers(controller.text);
+                                  setState(() {});
+                                },
                               ),
                             ),
                           ],

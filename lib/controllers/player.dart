@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:dream_team/models/player.dart';
 import 'package:dream_team/utils/constants.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,36 +6,34 @@ import 'package:http/http.dart' as http;
 
 class PlayerController with ChangeNotifier {
   List<Player> _players = [];
-  List<Player> _duplciatePlayers = [];
+  List<Player> _duplcatePlayers = [];
 
   void searchPlayers(String name) {
     List<Player> dummySearchList = [];
-    dummySearchList.addAll(_duplciatePlayers);
+    dummySearchList.addAll(_duplcatePlayers);
     if (name.isNotEmpty) {
-      List<Player> dummyListData = [];
-      dummySearchList.forEach((Player p) {
-        if (p.name.contains(name)) {
-          dummyListData.add(p);
-        }
-      });
       _players.clear();
-      _players.addAll(dummyListData);
+      _players.addAll(dummySearchList.where(
+          (Player p) => p.name.toUpperCase().contains(name.toUpperCase())));
       return;
     } else {
       _players.clear();
-      _players.addAll(_duplciatePlayers);
+      _players.addAll(_duplcatePlayers);
     }
+    notifyListeners();
   }
 
   Future<void> preLoad(String position, List playerIds) async {
     await loadPlayers(position);
     for (int id in playerIds) {
-      _players.removeWhere((Player p) => p.id == id);
+      _duplcatePlayers.removeWhere((Player p) => p.id == id);
     }
+    searchPlayers("");
+    notifyListeners();
   }
 
   Future<void> loadPlayers(String position) async {
-    _players.clear();
+    _duplcatePlayers.clear();
     const url = "${Constants.baseUrl}Player/Select";
     final response = await http.post(
       Uri.parse(url),
@@ -62,7 +59,7 @@ class PlayerController with ChangeNotifier {
           price: int.parse(p['price']),
           team: p['team'],
         );
-        _players.add(player);
+        _duplcatePlayers.add(player);
       }
     }
     notifyListeners();
