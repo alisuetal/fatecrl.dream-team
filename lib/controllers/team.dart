@@ -17,6 +17,18 @@ class TeamController with ChangeNotifier {
     return true;
   }
 
+  List getPlayersId() {
+    List players =
+        _players.where((element) => element.runtimeType != int).toList();
+    final List ids = players.map((e) {
+      if (e.runtimeType != int) {
+        Player p = e;
+        return p.id;
+      }
+    }).toList();
+    return ids;
+  }
+
   void setTatic(tatic) {
     _tatics.clear();
     switch (tatic) {

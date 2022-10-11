@@ -4,6 +4,7 @@ import 'package:dream_team/components/pop_up_widget.dart';
 import 'package:dream_team/components/screen_holder_widget.dart';
 import 'package:dream_team/components/textfield_with_label_widget.dart';
 import 'package:dream_team/controllers/sponsors_league.dart';
+import 'package:dream_team/controllers/team.dart';
 import 'package:dream_team/models/user.dart';
 import 'package:dream_team/controllers/user.dart';
 import 'package:dream_team/utils/validator.dart';
@@ -43,6 +44,7 @@ class _CompleteSignUpScreenState extends State<CompleteSignUpScreen> {
   @override
   Widget build(BuildContext context) {
     final UserController userControler = Provider.of<UserController>(context);
+    final TeamController teamControler = Provider.of<TeamController>(context);
 
     Future<bool> submitCompleteSignUp(UserController userControler) async {
       final bool isValid = _formKey.currentState!.validate();
@@ -70,6 +72,7 @@ class _CompleteSignUpScreenState extends State<CompleteSignUpScreen> {
       final bool signUp = await userControler.signUp();
 
       if (signUp) {
+        teamControler.setTatic(0);
         return true;
       }
       showAlertDialog(context, "Erro", "Ocorreu um erro de conexão", false);

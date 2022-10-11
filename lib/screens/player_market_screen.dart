@@ -105,18 +105,31 @@ class _PlayerMarketScreenState extends State<PlayerMarketScreen> {
                         ),
                       ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 40),
-                      child: TextfieldWithLabelWidget(
-                        text: null,
-                        hint: "Pesquisar jogador",
-                        keyboardtype: TextInputType.name,
-                        controller: controller,
-                      ),
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.search),
-                      onPressed: () {},
+                    Stack(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 40),
+                          child: TextfieldWithLabelWidget(
+                            text: null,
+                            hint: "Pesquisar jogador",
+                            keyboardtype: TextInputType.name,
+                            controller: controller,
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 82, right: 8),
+                              child: IconButton(
+                                icon: const Icon(Icons.search),
+                                onPressed: () {},
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                     ListView.builder(
                       shrinkWrap: true,

@@ -7,6 +7,33 @@ import 'package:http/http.dart' as http;
 
 class PlayerController with ChangeNotifier {
   List<Player> _players = [];
+  List<Player> _duplciatePlayers = [];
+
+  void searchPlayers(String name) {
+    List<Player> dummySearchList = [];
+    dummySearchList.addAll(_duplciatePlayers);
+    if (name.isNotEmpty) {
+      List<Player> dummyListData = [];
+      dummySearchList.forEach((Player p) {
+        if (p.name.contains(name)) {
+          dummyListData.add(p);
+        }
+      });
+      _players.clear();
+      _players.addAll(dummyListData);
+      return;
+    } else {
+      _players.clear();
+      _players.addAll(_duplciatePlayers);
+    }
+  }
+
+  Future<void> preLoad(String position, List playerIds) async {
+    await loadPlayers(position);
+    for (int id in playerIds) {
+      _players.removeWhere((Player p) => p.id == id);
+    }
+  }
 
   Future<void> loadPlayers(String position) async {
     _players.clear();
@@ -83,5 +110,9 @@ class PlayerController with ChangeNotifier {
 
   Player getPlayer(int index) {
     return _players.elementAt(index);
+  }
+
+  List<Player> getPlayersList() {
+    return _players;
   }
 }

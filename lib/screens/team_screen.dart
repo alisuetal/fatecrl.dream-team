@@ -37,8 +37,7 @@ class _TeamScreenState extends State<TeamScreen> {
     int taticId = userController.user.tatic!;
     final PlayerController playerController =
         Provider.of<PlayerController>(context, listen: false);
-    TeamController teamController =
-        Provider.of<TeamController>(context, listen: false);
+    TeamController teamController = Provider.of<TeamController>(context);
 
     Future<void> clearTeam(int value) async {
       userController.changeTatic(userController.user.email!, value);
@@ -99,7 +98,6 @@ class _TeamScreenState extends State<TeamScreen> {
                               setState(() {
                                 teamController.setTatic(value);
                                 taticId = value;
-                                print(taticId);
                               });
                             });
                           },
@@ -122,16 +120,10 @@ class _TeamScreenState extends State<TeamScreen> {
                                       teamController.getPoints(index).toInt(),
                                   rightWidget: RoundIconWidget(
                                     icon: Icons.remove,
-                                    function: () =>
-                                        removePlayer(index).then((_) {
-                                      setState(() {
-                                        print(
-                                            "setState aqui não está funcionando");
-                                      });
-                                    }),
+                                    function: () => removePlayer(index)
+                                        .then((_) => setState(() {})),
                                   ),
-                                  price: teamController
-                                      .getPrice(index), //TO-DO: ADD PRICE
+                                  price: teamController.getPrice(index),
                                 ),
                               )
                             : Padding(
@@ -140,8 +132,9 @@ class _TeamScreenState extends State<TeamScreen> {
                                   position: teamController.getPosition(index),
                                   onTap: () {
                                     playerController
-                                        .loadPlayers(
-                                            teamController.getPosition(index))
+                                        .preLoad(
+                                            teamController.getPosition(index),
+                                            teamController.getPlayersId())
                                         .then((_) {
                                       Navigator.of(context).pushNamed(
                                         AppRoutes.playerMarket,
@@ -149,9 +142,7 @@ class _TeamScreenState extends State<TeamScreen> {
                                           teamController.getPosition(index),
                                           index,
                                         ],
-                                      ).then((_) {
-                                        setState(() {});
-                                      });
+                                      ).then((_) => setState(() {}));
                                     });
                                   },
                                 ),
