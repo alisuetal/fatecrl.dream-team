@@ -54,15 +54,25 @@ class LeagueInfoWidget extends StatelessWidget {
                 ],
               ),
               if (players == null)
-                LeagueColumnInfoWidget(
-                  info: position!.toString(),
-                  label: "Pos.",
-                ),
+                position != -1
+                    ? LeagueColumnInfoWidget(
+                        info: position!.toString(),
+                        label: "Pos.",
+                      )
+                    : const LeagueColumnInfoWidget(
+                        info: "",
+                        label: "",
+                      ),
               if (players == null)
-                LeagueColumnInfoWidget(
-                  info: points!.toString(),
-                  label: "Pts.",
-                ),
+                points != -1
+                    ? LeagueColumnInfoWidget(
+                        info: points!.toString(),
+                        label: "Pts.",
+                      )
+                    : const LeagueColumnInfoWidget(
+                        info: "",
+                        label: "",
+                      ),
               if (players != null)
                 LeagueColumnInfoWidget(
                   info: players!.toString(),

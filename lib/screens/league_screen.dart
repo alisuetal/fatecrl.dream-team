@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:dream_team/components/app_bar_widget.dart';
 import 'package:dream_team/components/inline_information_widget.dart';
 import 'package:dream_team/components/screen_holder_widget.dart';
@@ -22,6 +24,8 @@ class _LeagueScreenState extends State<LeagueScreen> {
     final userController = Provider.of<UserController>(context, listen: false);
     final sponsorLeagueController =
         Provider.of<SponsorsLeagueController>(context, listen: false);
+    final arguments = ModalRoute.of(context)?.settings.arguments as int;
+    final leagueId = arguments;
 
     return ScreenHolderWidget(
       content: Stack(
@@ -41,42 +45,53 @@ class _LeagueScreenState extends State<LeagueScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     AppBarWidget(
-                      title: "Liga",
+                      title: sponsorLeagueController.getLeagueNameId(leagueId),
                       leftWidget: RoundIconWidget(
                         icon: Icons.arrow_back_rounded,
                         function: () => Navigator.of(context).pop(),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 40),
-                      child: Text(
-                        "Seus status",
-                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                            color: const Color(0xffAAAAAA),
-                            fontWeight: FontWeight.w600),
+                    if (leagueId == userController.user.sponsorsLeague!)
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 40),
+                            child: Text(
+                              "Seus status",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1!
+                                  .copyWith(
+                                      color: const Color(0xffAAAAAA),
+                                      fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.only(top: 8),
+                            child: InlineInformationWidget(
+                              leftText: "Pontos na última rodada",
+                              rightText: "0",
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 16),
+                            child: InlineInformationWidget(
+                              leftText: "Pontos",
+                              rightText: userController.user.point.toString(),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 16),
+                            child: InlineInformationWidget(
+                              leftText: "Posição",
+                              rightText:
+                                  userController.user.position.toString(),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 8),
-                      child: InlineInformationWidget(
-                        leftText: "Pontos na última rodada",
-                        rightText: "0",
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16),
-                      child: InlineInformationWidget(
-                        leftText: "Pontos",
-                        rightText: userController.user.point.toString(),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16),
-                      child: InlineInformationWidget(
-                        leftText: "Posição",
-                        rightText: userController.user.position.toString(),
-                      ),
-                    ),
                     Padding(
                       padding: const EdgeInsets.only(top: 40),
                       child: Text(

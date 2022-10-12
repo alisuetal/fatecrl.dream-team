@@ -10,6 +10,10 @@ class SponsorsLeagueController with ChangeNotifier {
   final List<SponsorsLeague> _leagues = [];
   final List<LeagueMember> _members = [];
 
+  int length() {
+    return _leagues.length;
+  }
+
   Future<void> loudLeagues() async {
     _leagues.clear();
     const url = "${Constants.baseUrl}SponsorsLeague/Select";
@@ -37,11 +41,21 @@ class SponsorsLeagueController with ChangeNotifier {
     return leaguesMap;
   }
 
-  String getUserLeague(int id) {
-    int index = _leagues.indexWhere((league) => league.id == id);
-    final league = _leagues.elementAt(index);
+  bool isHisLeague(int index, int id) {
+    return _leagues.elementAt(index).id == id;
+  }
 
-    return league.name;
+  String getLeagueNameIndex(int index) {
+    return _leagues.elementAt(index).name;
+  }
+
+  String getLeagueNameId(int id) {
+    int index = _leagues.indexWhere((league) => league.id == id);
+    return _leagues.elementAt(index).name;
+  }
+
+  int getLeagueId(int index) {
+    return _leagues.elementAt(index).id;
   }
 
   Future<void> getLeagueMembers(int sponsorLeague) async {

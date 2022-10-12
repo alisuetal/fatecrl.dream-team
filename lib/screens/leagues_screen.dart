@@ -20,6 +20,8 @@ class LeaguesScreen extends StatefulWidget {
 }
 
 class _LeaguesScreenState extends State<LeaguesScreen> {
+  bool _verMais = false;
+
   @override
   Widget build(BuildContext context) {
     final userController = Provider.of<UserController>(context, listen: false);
@@ -64,26 +66,53 @@ class _LeaguesScreenState extends State<LeaguesScreen> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 8),
-                      child: LeagueInfoWidget(
-                        name: sponsorLeagueController
-                            .getUserLeague(userController.getLeague()),
-                        creator: "",
-                        position: userController.user.position,
-                        points: userController.getPoint(),
-                        onTap: () => sponsorLeagueController
-                            .getLeagueMembers(
-                                userController.user.sponsorsLeague ?? 0)
-                            .then(
-                              (_) => Navigator.of(context)
-                                  .pushNamed(AppRoutes.league),
-                            ),
+                      child: ListView.builder(
+                        physics: const ScrollPhysics(),
+                        itemCount:
+                            _verMais ? sponsorLeagueController.length() : 1,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return LeagueInfoWidget(
+                            name: _verMais
+                                ? sponsorLeagueController
+                                    .getLeagueNameIndex(index)
+                                : sponsorLeagueController.getLeagueNameId(
+                                    userController.user.sponsorsLeague!),
+                            creator: "",
+                            position: _verMais &&
+                                    !sponsorLeagueController.isHisLeague(index,
+                                        userController.user.sponsorsLeague!)
+                                ? -1
+                                : userController.user.position,
+                            points: _verMais &&
+                                    !sponsorLeagueController.isHisLeague(index,
+                                        userController.user.sponsorsLeague!)
+                                ? -1
+                                : userController.getPoint(),
+                            onTap: () => sponsorLeagueController
+                                .getLeagueMembers(_verMais
+                                    ? sponsorLeagueController.getLeagueId(index)
+                                    : userController.user.sponsorsLeague!)
+                                .then(
+                                  (_) => Navigator.of(context).pushNamed(
+                                      AppRoutes.league,
+                                      arguments: _verMais
+                                          ? sponsorLeagueController
+                                              .getLeagueId(index)
+                                          : userController
+                                              .user.sponsorsLeague!),
+                                ),
+                          );
+                        },
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 40),
                       child: ButtonWidget(
-                        text: "Ver mais",
-                        function: () {},
+                        text: _verMais ? "Ver menos" : "Ver mais",
+                        function: () => setState(() {
+                          _verMais = !_verMais;
+                        }),
                         enabled: true,
                       ),
                     ),
