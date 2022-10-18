@@ -72,36 +72,42 @@ class _LeaguesScreenState extends State<LeaguesScreen> {
                             _verMais ? sponsorLeagueController.length() : 1,
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
-                          return LeagueInfoWidget(
-                            name: _verMais
-                                ? sponsorLeagueController
-                                    .getLeagueNameIndex(index)
-                                : sponsorLeagueController.getLeagueNameId(
-                                    userController.user.sponsorsLeague!),
-                            creator: "",
-                            position: _verMais &&
-                                    !sponsorLeagueController.isHisLeague(index,
-                                        userController.user.sponsorsLeague!)
-                                ? -1
-                                : userController.user.position,
-                            points: _verMais &&
-                                    !sponsorLeagueController.isHisLeague(index,
-                                        userController.user.sponsorsLeague!)
-                                ? -1
-                                : userController.getPoint(),
-                            onTap: () => sponsorLeagueController
-                                .getLeagueMembers(_verMais
-                                    ? sponsorLeagueController.getLeagueId(index)
-                                    : userController.user.sponsorsLeague!)
-                                .then(
-                                  (_) => Navigator.of(context).pushNamed(
-                                      AppRoutes.league,
-                                      arguments: _verMais
-                                          ? sponsorLeagueController
-                                              .getLeagueId(index)
-                                          : userController
-                                              .user.sponsorsLeague!),
-                                ),
+                          return Padding(
+                            padding: const EdgeInsets.only(top: 24),
+                            child: LeagueInfoWidget(
+                              name: _verMais
+                                  ? sponsorLeagueController
+                                      .getLeagueNameIndex(index)
+                                  : sponsorLeagueController.getLeagueNameId(
+                                      userController.user.sponsorsLeague!),
+                              creator: "",
+                              position: _verMais &&
+                                      !sponsorLeagueController.isHisLeague(
+                                          index,
+                                          userController.user.sponsorsLeague!)
+                                  ? -1
+                                  : userController.user.position,
+                              points: _verMais &&
+                                      !sponsorLeagueController.isHisLeague(
+                                          index,
+                                          userController.user.sponsorsLeague!)
+                                  ? -1
+                                  : userController.getPoint(),
+                              onTap: () => sponsorLeagueController
+                                  .getLeagueMembers(_verMais
+                                      ? sponsorLeagueController
+                                          .getLeagueId(index)
+                                      : userController.user.sponsorsLeague!)
+                                  .then(
+                                    (_) => Navigator.of(context).pushNamed(
+                                        AppRoutes.sponsorLeague,
+                                        arguments: _verMais
+                                            ? sponsorLeagueController
+                                                .getLeagueId(index)
+                                            : userController
+                                                .user.sponsorsLeague!),
+                                  ),
+                            ),
                           );
                         },
                       ),
@@ -132,8 +138,8 @@ class _LeaguesScreenState extends State<LeaguesScreen> {
                         creator: "Mockup creator",
                         position: 1,
                         points: 12.3,
-                        onTap: () =>
-                            Navigator.of(context).pushNamed(AppRoutes.league),
+                        onTap: () => Navigator.of(context)
+                            .pushNamed(AppRoutes.customLeague),
                       ),
                     ),
                     Padding(

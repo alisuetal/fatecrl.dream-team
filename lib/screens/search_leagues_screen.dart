@@ -61,7 +61,7 @@ class SearchLeaguesScreen extends StatelessWidget {
                         points: 12.3,
                         players: 241,
                         onTap: () => Navigator.of(context)
-                            .pushReplacementNamed(AppRoutes.league),
+                            .pushReplacementNamed(AppRoutes.customLeague),
                       ),
                     ),
                     const SizedBox(

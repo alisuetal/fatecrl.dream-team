@@ -5,7 +5,8 @@ import 'package:dream_team/controllers/user.dart';
 import 'package:dream_team/models/sponsors_league.dart';
 import 'package:dream_team/screens/change_user_info_screen.dart';
 import 'package:dream_team/screens/create_league_screen.dart';
-import 'package:dream_team/screens/league_screen.dart';
+import 'package:dream_team/screens/custom_league_screen.dart';
+import 'package:dream_team/screens/sponsor_league_screen.dart';
 import 'package:dream_team/screens/search_leagues_screen.dart';
 import 'package:dream_team/screens/settings_screen.dart';
 import 'package:dream_team/screens/tabs_screen.dart';
@@ -102,7 +103,8 @@ class DreamTeam extends StatelessWidget {
           AppRoutes.completeSignUp: (context) => const CompleteSignUpScreen(),
           AppRoutes.team: (context) => const TeamScreen(),
           AppRoutes.playerMarket: (context) => const PlayerMarketScreen(),
-          AppRoutes.league: (context) => const LeagueScreen(),
+          AppRoutes.sponsorLeague: (context) => const SponsorLeagueScreen(),
+          AppRoutes.customLeague: (context) => const CustomLeagueScreen(),
           AppRoutes.createLeague: (context) => const CreateLeagueScreen(),
           AppRoutes.searchLeagues: (context) => const SearchLeaguesScreen(),
           AppRoutes.settings: (context) => const SettingsScreen(),

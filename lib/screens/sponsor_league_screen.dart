@@ -11,14 +11,14 @@ import 'package:provider/provider.dart';
 import '../components/round_icon_widget.dart';
 import '../components/small_inline_information_widget.dart';
 
-class LeagueScreen extends StatefulWidget {
-  const LeagueScreen({Key? key}) : super(key: key);
+class SponsorLeagueScreen extends StatefulWidget {
+  const SponsorLeagueScreen({Key? key}) : super(key: key);
 
   @override
-  State<LeagueScreen> createState() => _LeagueScreenState();
+  State<SponsorLeagueScreen> createState() => _SponsorLeagueScreenState();
 }
 
-class _LeagueScreenState extends State<LeagueScreen> {
+class _SponsorLeagueScreenState extends State<SponsorLeagueScreen> {
   @override
   Widget build(BuildContext context) {
     final userController = Provider.of<UserController>(context, listen: false);
@@ -106,13 +106,16 @@ class _LeagueScreenState extends State<LeagueScreen> {
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemBuilder: (ctx, index) {
-                        return SmallInlineInformationWidget(
-                          iconText:
-                              "#${sponsorLeagueController.getMemberPosition(index)}",
-                          leftText:
-                              sponsorLeagueController.getMemberNickname(index),
-                          rightText:
-                              "${sponsorLeagueController.getMemberPoints(index)} pts",
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 8),
+                          child: SmallInlineInformationWidget(
+                            iconText:
+                                "#${sponsorLeagueController.getMemberPosition(index)}",
+                            leftText: sponsorLeagueController
+                                .getMemberNickname(index),
+                            rightText:
+                                "${sponsorLeagueController.getMemberPoints(index)} pts",
+                          ),
                         );
                       },
                     ),

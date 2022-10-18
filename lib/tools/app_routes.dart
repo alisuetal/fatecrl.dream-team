@@ -5,7 +5,8 @@ class AppRoutes {
   static const completeSignUp = "/completesignup";
   static const team = "/team";
   static const playerMarket = "/playermarket";
-  static const league = "/league";
+  static const sponsorLeague = "/sponsorleague";
+  static const customLeague = "/customleague";
   static const createLeague = "/createleague";
   static const searchLeagues = "/searchLeagues";
   static const settings = "/settings";
