@@ -4,6 +4,7 @@ import 'package:dream_team/components/pop_up_widget.dart';
 import 'package:dream_team/components/round_icon_widget.dart';
 import 'package:dream_team/components/screen_holder_widget.dart';
 import 'package:dream_team/components/textfield_with_label_widget.dart';
+import 'package:dream_team/controllers/custom_league.dart';
 import 'package:dream_team/controllers/sponsors_league.dart';
 import 'package:dream_team/controllers/team.dart';
 import 'package:dream_team/controllers/user.dart';
@@ -47,6 +48,7 @@ class LogInScreen extends StatelessWidget {
         Provider.of<UserController>(context, listen: false);
     final TeamController teamController =
         Provider.of<TeamController>(context, listen: false);
+    final cLeague = Provider.of<CustomLeagueController>(context, listen: false);
 
     return ScreenHolderWidget(
       content: Stack(
@@ -111,9 +113,14 @@ class LogInScreen extends StatelessWidget {
                                         teamController
                                             .loadPlayers(
                                                 userController.user.email!)
-                                            .then((_) => Navigator.of(context)
-                                                .pushReplacementNamed(
-                                                    AppRoutes.tabsScreen));
+                                            .then((_) {
+                                          cLeague
+                                              .getCustomLeague(
+                                                  userController.user.email!)
+                                              .then((_) => Navigator.of(context)
+                                                  .pushReplacementNamed(
+                                                      AppRoutes.tabsScreen));
+                                        });
                                       });
                                     }
                                   }),

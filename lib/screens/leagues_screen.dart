@@ -3,6 +3,7 @@ import 'package:dream_team/components/button_widget.dart';
 import 'package:dream_team/components/header_profile_picture_widget.dart';
 import 'package:dream_team/components/league_info_widget.dart';
 import 'package:dream_team/components/screen_holder_widget.dart';
+import 'package:dream_team/controllers/custom_league.dart';
 import 'package:dream_team/controllers/sponsors_league.dart';
 import 'package:dream_team/controllers/user.dart';
 import 'package:dream_team/tools/app_routes.dart';
@@ -20,13 +21,15 @@ class LeaguesScreen extends StatefulWidget {
 }
 
 class _LeaguesScreenState extends State<LeaguesScreen> {
-  bool _verMais = false;
+  bool _sVerMais = false;
 
   @override
   Widget build(BuildContext context) {
     final userController = Provider.of<UserController>(context, listen: false);
     final sponsorLeagueController =
         Provider.of<SponsorsLeagueController>(context, listen: false);
+    final customLeagueController =
+        Provider.of<CustomLeagueController>(context, listen: false);
 
     return ScreenHolderWidget(
       content: Stack(
@@ -69,39 +72,39 @@ class _LeaguesScreenState extends State<LeaguesScreen> {
                       child: ListView.builder(
                         physics: const ScrollPhysics(),
                         itemCount:
-                            _verMais ? sponsorLeagueController.length() : 1,
+                            _sVerMais ? sponsorLeagueController.length() : 1,
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
                           return Padding(
                             padding: const EdgeInsets.only(top: 24),
                             child: LeagueInfoWidget(
-                              name: _verMais
+                              name: _sVerMais
                                   ? sponsorLeagueController
                                       .getLeagueNameIndex(index)
                                   : sponsorLeagueController.getLeagueNameId(
                                       userController.user.sponsorsLeague!),
                               creator: "",
-                              position: _verMais &&
+                              position: _sVerMais &&
                                       !sponsorLeagueController.isHisLeague(
                                           index,
                                           userController.user.sponsorsLeague!)
                                   ? -1
                                   : userController.user.position,
-                              points: _verMais &&
+                              points: _sVerMais &&
                                       !sponsorLeagueController.isHisLeague(
                                           index,
                                           userController.user.sponsorsLeague!)
                                   ? -1
                                   : userController.getPoint(),
                               onTap: () => sponsorLeagueController
-                                  .getLeagueMembers(_verMais
+                                  .getLeagueMembers(_sVerMais
                                       ? sponsorLeagueController
                                           .getLeagueId(index)
                                       : userController.user.sponsorsLeague!)
                                   .then(
                                     (_) => Navigator.of(context).pushNamed(
                                         AppRoutes.sponsorLeague,
-                                        arguments: _verMais
+                                        arguments: _sVerMais
                                             ? sponsorLeagueController
                                                 .getLeagueId(index)
                                             : userController
@@ -115,9 +118,9 @@ class _LeaguesScreenState extends State<LeaguesScreen> {
                     Padding(
                       padding: const EdgeInsets.only(top: 40),
                       child: ButtonWidget(
-                        text: _verMais ? "Ver menos" : "Ver mais",
+                        text: _sVerMais ? "Ver menos" : "Ver mais",
                         function: () => setState(() {
-                          _verMais = !_verMais;
+                          _sVerMais = !_sVerMais;
                         }),
                         enabled: true,
                       ),
@@ -133,13 +136,23 @@ class _LeaguesScreenState extends State<LeaguesScreen> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 8),
-                      child: LeagueInfoWidget(
-                        name: "Mockup",
-                        creator: "Mockup creator",
-                        position: 1,
-                        points: 12.3,
-                        onTap: () => Navigator.of(context)
-                            .pushNamed(AppRoutes.customLeague),
+                      child: ListView.builder(
+                        physics: const ScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: customLeagueController.countLeagues(),
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(top: 24),
+                            child: LeagueInfoWidget(
+                              name: customLeagueController.getNameIndex(index),
+                              creator: "Mockup creator",
+                              position: 1,
+                              points: 12.3,
+                              onTap: () => Navigator.of(context)
+                                  .pushNamed(AppRoutes.customLeague),
+                            ),
+                          );
+                        },
                       ),
                     ),
                     Padding(

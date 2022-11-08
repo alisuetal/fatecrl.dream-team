@@ -1,3 +1,4 @@
+import 'package:dream_team/controllers/custom_league.dart';
 import 'package:dream_team/controllers/player.dart';
 import 'package:dream_team/controllers/sponsors_league.dart';
 import 'package:dream_team/controllers/team.dart';
@@ -53,6 +54,9 @@ class DreamTeam extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => SponsorsLeagueController(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => CustomLeagueController(),
         ),
       ],
       child: MaterialApp(
