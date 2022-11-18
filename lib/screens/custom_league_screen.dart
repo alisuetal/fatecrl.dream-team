@@ -105,24 +105,26 @@ class _CustomLeagueScreenState extends State<CustomLeagueScreen> {
                       ),
                     ),
                     ListView.builder(
-                      itemCount: 2,
+                      itemCount: customLeagueController.memberLength(),
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
-                        return Container(
-                          child: Text("a"),
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 8),
+                          child: SmallInlineInformationWidget(
+                            iconText:
+                                "#${customLeagueController.getMemberPosition(index)}",
+                            leftText:
+                                customLeagueController.getMemberNickname(index),
+                            rightText:
+                                "${customLeagueController.getMemberPoints(index)} pts",
+                          ),
                         );
                       },
                     ),
                     const SizedBox(
                       height: 160,
                     ),
-                    // ListView.builder(
-                    //   itemCount: customLeagueController.memberLength(),
-                    //   physics: const NeverScrollableScrollPhysics(),
-                    //   shrinkWrap: true,
-                    //   itemBuilder: (context, index) => Text("a"),
-                    // ),
                   ],
                 ),
               ),

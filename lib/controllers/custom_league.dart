@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:dream_team/models/custom_league.dart';
+import 'package:dream_team/models/public_league.dart';
 import 'package:dream_team/models/sponsors_league_member.dart';
 import 'package:dream_team/utils/constants.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,6 +11,7 @@ import 'package:http/http.dart' as http;
 class CustomLeagueController with ChangeNotifier {
   final List<CustomLeague> _leagues = [];
   final List<LeagueMember> _members = [];
+  final List<PublicLeague> _publicLeagues = [];
 
   int countLeagues() {
     return _leagues.length;
@@ -98,6 +100,26 @@ class CustomLeagueController with ChangeNotifier {
     return 0;
   }
 
+  String getPublicLeagueNameIndex(int index) {
+    return _publicLeagues.elementAt(index).name;
+  }
+
+  String getPublicLeagueCreatorIndex(int index) {
+    return _publicLeagues.elementAt(index).creator;
+  }
+
+  int getPublicLeagueMembersIndex(int index) {
+    return _publicLeagues.elementAt(index).members;
+  }
+
+  int publicLeaguesLength() {
+    return _publicLeagues.length;
+  }
+
+  int getPublicLeagueId(int index) {
+    return _publicLeagues.elementAt(index).id;
+  }
+
   Future<bool> getCustomLeague(String email) async {
     final url = "${Constants.baseUrl}CustomLeague/GetLeagueUser?email=$email";
     final response = await http.get(
@@ -117,6 +139,29 @@ class CustomLeagueController with ChangeNotifier {
           creator: l['creator'],
         );
         _leagues.add(league);
+      }
+      notifyListeners();
+      return true;
+    }
+    return false;
+  }
+
+  Future<bool> loadPublicLeagues() async {
+    _publicLeagues.clear();
+    const url = "${Constants.baseUrl}CustomLeague/GetPublicLeagues";
+    final response = await http.get(
+      Uri.parse(url),
+    );
+    if (response.statusCode == 201) {
+      final data = jsonDecode(response.body);
+      for (var l in data) {
+        PublicLeague public = PublicLeague(
+          id: int.parse(l['id']),
+          name: l['name'],
+          members: int.parse(l['userLength']),
+          creator: l['creator'],
+        );
+        _publicLeagues.add(public);
       }
       notifyListeners();
       return true;

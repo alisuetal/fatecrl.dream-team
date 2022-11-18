@@ -182,10 +182,10 @@ class _LeaguesScreenState extends State<LeaguesScreen> {
                       padding: const EdgeInsets.only(top: 40),
                       child: ButtonWidget(
                         text: "Ver mais",
-                        function: () {
-                          Navigator.of(context)
-                              .pushNamed(AppRoutes.searchLeagues);
-                        },
+                        function: () => customLeagueController
+                            .loadPublicLeagues()
+                            .then((_) => Navigator.of(context)
+                                .pushNamed(AppRoutes.searchLeagues)),
                         enabled: true,
                       ),
                     ),
