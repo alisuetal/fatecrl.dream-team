@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
-import 'package:dream_team/models/leagueMember.dart';
+import 'package:dream_team/models/sponsors_league_member.dart';
 import 'package:dream_team/models/sponsors_league.dart';
 import 'package:dream_team/utils/constants.dart';
 import 'package:flutter/cupertino.dart';

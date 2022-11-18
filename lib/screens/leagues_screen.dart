@@ -141,16 +141,39 @@ class _LeaguesScreenState extends State<LeaguesScreen> {
                         shrinkWrap: true,
                         itemCount: customLeagueController.countLeagues(),
                         itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.only(top: 24),
-                            child: LeagueInfoWidget(
-                              name: customLeagueController.getNameIndex(index),
-                              creator: "Mockup creator",
-                              position: 1,
-                              points: 12.3,
-                              onTap: () => Navigator.of(context)
-                                  .pushNamed(AppRoutes.customLeague),
-                            ),
+                          return FutureBuilder(
+                            future: customLeagueController.getUserPosition(
+                                userController.user.email!, index, true),
+                            builder: (context, snapshot) {
+                              return Padding(
+                                padding: const EdgeInsets.only(top: 24),
+                                child: LeagueInfoWidget(
+                                  name: customLeagueController
+                                      .getNameIndex(index),
+                                  creator: customLeagueController
+                                      .getCreatorNameIndex(index),
+                                  position: snapshot.hasData
+                                      ? int.parse(snapshot.data.toString())
+                                      : 0,
+                                  points: double.parse(customLeagueController
+                                      .getUserPointsIndex(index)
+                                      .toString()),
+                                  onTap: () {
+                                    customLeagueController
+                                        .getLeagueMembers(customLeagueController
+                                            .getLeagueId(index))
+                                        .then(
+                                          (_) =>
+                                              Navigator.of(context).pushNamed(
+                                            AppRoutes.customLeague,
+                                            arguments: customLeagueController
+                                                .getLeagueId(index),
+                                          ),
+                                        );
+                                  },
+                                ),
+                              );
+                            },
                           );
                         },
                       ),

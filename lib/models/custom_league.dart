@@ -5,6 +5,8 @@ class CustomLeague {
   final int members;
   final bool private;
   final String privateId;
+  final int userPoints;
+  final String creator;
 
   CustomLeague({
     required this.id,
@@ -13,5 +15,7 @@ class CustomLeague {
     required this.members,
     required this.private,
     required this.privateId,
+    required this.userPoints,
+    required this.creator,
   });
 }
