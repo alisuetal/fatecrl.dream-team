@@ -183,7 +183,7 @@ class _LeaguesScreenState extends State<LeaguesScreen> {
                       child: ButtonWidget(
                         text: "Ver mais",
                         function: () => customLeagueController
-                            .loadPublicLeagues()
+                            .loadOpenLeagues(userController.user.email!)
                             .then((_) => Navigator.of(context)
                                 .pushNamed(AppRoutes.searchLeagues)),
                         enabled: true,

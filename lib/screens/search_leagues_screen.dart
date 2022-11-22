@@ -18,6 +18,8 @@ class SearchLeaguesScreen extends StatefulWidget {
 }
 
 class _SearchLeaguesScreenState extends State<SearchLeaguesScreen> {
+  final codeController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final customLeagueController =
@@ -47,11 +49,30 @@ class _SearchLeaguesScreenState extends State<SearchLeaguesScreen> {
                         function: () => Navigator.of(context).pop(),
                       ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 40),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 40),
                       child: TextfieldWithLabelWidget(
+                        text: null,
                         hint: "Código da liga",
+                        controller: codeController,
                       ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 75, right: 8),
+                          child: IconButton(
+                            icon: const Icon(Icons.search),
+                            onPressed: () {
+                              customLeagueController
+                                  .searchPlayers(codeController.text);
+                              setState(() {});
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 16),
@@ -65,27 +86,27 @@ class _SearchLeaguesScreenState extends State<SearchLeaguesScreen> {
                     ListView.builder(
                       physics: const ScrollPhysics(),
                       shrinkWrap: true,
-                      itemCount: customLeagueController.publicLeaguesLength(),
+                      itemCount: customLeagueController.openLeaguesLength(),
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: const EdgeInsets.only(top: 8),
                           child: LeagueInfoWidget(
                             name: customLeagueController
-                                .getPublicLeagueNameIndex(index),
+                                .getOpenLeagueNameIndex(index),
                             creator: customLeagueController
-                                .getPublicLeagueCreatorIndex(index),
+                                .getOpenLeagueCreatorIndex(index),
                             position: 0,
                             points: -1,
                             players: customLeagueController
-                                .getPublicLeagueMembersIndex(index),
+                                .getOpenLeagueMembersIndex(index),
                             onTap: () => customLeagueController
                                 .getLeagueMembers(customLeagueController
-                                    .getPublicLeagueId(index))
+                                    .getOpenLeagueId(index))
                                 .then(
                                   (_) => Navigator.of(context).pushNamed(
                                     AppRoutes.customLeague,
                                     arguments: customLeagueController
-                                        .getPublicLeagueId(index),
+                                        .getOpenLeagueId(index),
                                   ),
                                 ),
                           ),

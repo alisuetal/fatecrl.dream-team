@@ -1,10 +1,13 @@
 import 'package:dream_team/components/app_bar_widget.dart';
+import 'package:dream_team/components/button_widget.dart';
+import 'package:dream_team/components/ghost_button_widget.dart';
 import 'package:dream_team/components/inline_information_widget.dart';
 import 'package:dream_team/components/player_team_card_widget.dart';
 import 'package:dream_team/components/screen_holder_widget.dart';
 import 'package:dream_team/components/textfield_with_label_widget.dart';
 import 'package:dream_team/controllers/custom_league.dart';
 import 'package:dream_team/controllers/user.dart';
+import 'package:dream_team/tools/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -52,49 +55,59 @@ class _CustomLeagueScreenState extends State<CustomLeagueScreen> {
                       ),
                     ),
                     Text(
-                      "Criador: ${customLeagueController.getCreatorNameId(leagueId)} • 0 participantes",
+                      "Criador: ${customLeagueController.getCreatorNameId(leagueId)} • Código: ${customLeagueController.getCodeId(leagueId)} ${!customLeagueController.isPrivate(leagueId) ? " • ${customLeagueController.getOpenLeagueMembersId(leagueId)} participantes" : ""}",
                       style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                            color: Color(0xffAAAAAA),
-                          ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 40),
-                      child: Text(
-                        "Seus status",
-                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
                             color: const Color(0xffAAAAAA),
-                            fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 8),
-                      child: InlineInformationWidget(
-                        leftText: "Pontos na última rodada",
-                        rightText: "0",
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16),
-                      child: InlineInformationWidget(
-                        leftText: "Pontos",
-                        rightText: customLeagueController
-                            .getUserPointsId(leagueId)
-                            .toString(),
-                      ),
-                    ),
-                    FutureBuilder(
-                      future: customLeagueController.getUserPosition(
-                          userController.user.email!, leagueId, false),
-                      builder: (context, snapshot) {
-                        return Padding(
-                          padding: const EdgeInsets.only(top: 16),
-                          child: InlineInformationWidget(
-                            leftText: "Posição",
-                            rightText: snapshot.data.toString(),
                           ),
-                        );
-                      },
                     ),
+                    if (customLeagueController.isPrivate(leagueId))
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 40),
+                            child: Text(
+                              "Seus status",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1!
+                                  .copyWith(
+                                      color: const Color(0xffAAAAAA),
+                                      fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.only(top: 8),
+                            child: InlineInformationWidget(
+                              leftText: "Pontos na última rodada",
+                              rightText: "0",
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 16),
+                            child: InlineInformationWidget(
+                              leftText: "Pontos",
+                              rightText: customLeagueController
+                                  .getUserPointsId(leagueId)
+                                  .toString(),
+                            ),
+                          ),
+                          FutureBuilder(
+                            future: customLeagueController.getUserPosition(
+                                userController.user.email!, leagueId, false),
+                            builder: (context, snapshot) {
+                              return Padding(
+                                padding: const EdgeInsets.only(top: 16),
+                                child: InlineInformationWidget(
+                                  leftText: "Posição",
+                                  rightText: snapshot.data.toString(),
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
                     Padding(
                       padding: const EdgeInsets.only(top: 40),
                       child: Text(
@@ -122,6 +135,24 @@ class _CustomLeagueScreenState extends State<CustomLeagueScreen> {
                         );
                       },
                     ),
+                    if (!customLeagueController.isPrivate(leagueId))
+                      Padding(
+                        padding: const EdgeInsets.only(top: 40),
+                        child: ButtonWidget(
+                          text: "Entrar",
+                          function: () => null,
+                          enabled: true,
+                        ),
+                      ),
+                    if (customLeagueController.isPrivate(leagueId))
+                      Padding(
+                        padding: const EdgeInsets.only(top: 16),
+                        child: GhostButtonWidget(
+                          text: "Sair",
+                          onTap: () => null,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
                     const SizedBox(
                       height: 160,
                     ),

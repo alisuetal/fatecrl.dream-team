@@ -1,8 +1,5 @@
 import 'dart:convert';
-import 'dart:math';
-
 import 'package:dream_team/models/custom_league.dart';
-import 'package:dream_team/models/public_league.dart';
 import 'package:dream_team/models/sponsors_league_member.dart';
 import 'package:dream_team/utils/constants.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,7 +8,23 @@ import 'package:http/http.dart' as http;
 class CustomLeagueController with ChangeNotifier {
   final List<CustomLeague> _leagues = [];
   final List<LeagueMember> _members = [];
-  final List<PublicLeague> _publicLeagues = [];
+  final List<CustomLeague> _openLeagues = [];
+  List<CustomLeague> _duplcateOpenLeagues = [];
+
+  void searchPlayers(String code) {
+    List<CustomLeague> dummySearchList = [];
+    dummySearchList.addAll(_duplcateOpenLeagues);
+    if (code.isNotEmpty) {
+      _openLeagues.clear();
+      _openLeagues.addAll(
+          dummySearchList.where((CustomLeague c) => c.privateId == code));
+      return;
+    } else {
+      _openLeagues.clear();
+      _openLeagues.addAll(_duplcateOpenLeagues);
+    }
+    notifyListeners();
+  }
 
   int countLeagues() {
     return _leagues.length;
@@ -34,16 +47,37 @@ class CustomLeagueController with ChangeNotifier {
   }
 
   String getLeagueNameId(int id) {
-    return _leagues.where((l) => l.id == id).first.name;
+    try {
+      return _leagues.where((l) => l.id == id).first.name;
+    } catch (e) {
+      return _openLeagues.where((l) => l.id == id).first.name;
+    }
   }
 
   String getCreatorNameId(int id) {
-    return _leagues.where((l) => l.id == id).first.creator;
+    try {
+      return _leagues.where((l) => l.id == id).first.creator;
+    } catch (e) {
+      return _openLeagues.where((l) => l.id == id).first.creator;
+    }
+  }
+
+  String getCodeId(int id) {
+    try {
+      return _leagues.where((l) => l.id == id).first.privateId;
+    } catch (e) {
+      return _openLeagues.where((element) => element.id == id).first.privateId;
+    }
   }
 
   double getUserPointsId(int id) {
-    return double.parse(
-        _leagues.where((l) => l.id == id).first.userPoints.toString());
+    try {
+      return double.parse(
+          _leagues.where((l) => l.id == id).first.userPoints.toString());
+    } catch (e) {
+      return double.parse(
+          _openLeagues.where((l) => l.id == id).first.members.toString());
+    }
   }
 
   int memberLength() {
@@ -100,24 +134,32 @@ class CustomLeagueController with ChangeNotifier {
     return 0;
   }
 
-  String getPublicLeagueNameIndex(int index) {
-    return _publicLeagues.elementAt(index).name;
+  String getOpenLeagueNameIndex(int index) {
+    return _openLeagues.elementAt(index).name;
   }
 
-  String getPublicLeagueCreatorIndex(int index) {
-    return _publicLeagues.elementAt(index).creator;
+  String getOpenLeagueCreatorIndex(int index) {
+    return _openLeagues.elementAt(index).creator;
   }
 
-  int getPublicLeagueMembersIndex(int index) {
-    return _publicLeagues.elementAt(index).members;
+  int getOpenLeagueMembersIndex(int index) {
+    return _openLeagues.elementAt(index).players;
   }
 
-  int publicLeaguesLength() {
-    return _publicLeagues.length;
+  String getOpenLeagueMembersId(int id) {
+    return _openLeagues
+        .where((element) => element.id == id)
+        .first
+        .members
+        .toString();
   }
 
-  int getPublicLeagueId(int index) {
-    return _publicLeagues.elementAt(index).id;
+  int openLeaguesLength() {
+    return _openLeagues.length;
+  }
+
+  int getOpenLeagueId(int index) {
+    return _openLeagues.elementAt(index).id;
   }
 
   Future<bool> getCustomLeague(String email) async {
@@ -137,6 +179,8 @@ class CustomLeagueController with ChangeNotifier {
           privateId: l['code'],
           userPoints: int.parse(l['points']),
           creator: l['creator'],
+          entry: int.parse(l['entry']),
+          players: int.parse(l['players']),
         );
         _leagues.add(league);
       }
@@ -146,22 +190,35 @@ class CustomLeagueController with ChangeNotifier {
     return false;
   }
 
-  Future<bool> loadPublicLeagues() async {
-    _publicLeagues.clear();
-    const url = "${Constants.baseUrl}CustomLeague/GetPublicLeagues";
+  bool isPrivate(int id) {
+    if (_leagues.where((l) => l.id == id).isEmpty) {
+      return false;
+    }
+    return true;
+  }
+
+  Future<bool> loadOpenLeagues(String email) async {
+    _openLeagues.clear();
+    final url = "${Constants.baseUrl}CustomLeague/GetOpenLeagues?email=$email";
     final response = await http.get(
       Uri.parse(url),
     );
     if (response.statusCode == 201) {
       final data = jsonDecode(response.body);
       for (var l in data) {
-        PublicLeague public = PublicLeague(
+        CustomLeague league = CustomLeague(
           id: int.parse(l['id']),
           name: l['name'],
+          rounds: int.parse(l['rounds']),
           members: int.parse(l['userLength']),
+          private: int.parse(l['private']) == 1,
+          privateId: l['code'],
+          userPoints: int.parse(l['points']),
           creator: l['creator'],
+          entry: int.parse(l['entry']),
+          players: int.parse(l['players']),
         );
-        _publicLeagues.add(public);
+        _openLeagues.add(league);
       }
       notifyListeners();
       return true;
