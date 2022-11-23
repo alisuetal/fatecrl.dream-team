@@ -1,7 +1,9 @@
 import 'package:dream_team/components/app_bar_widget.dart';
 import 'package:dream_team/components/league_info_widget.dart';
+import 'package:dream_team/components/leonitas_market_widget.dart';
 import 'package:dream_team/components/screen_holder_widget.dart';
 import 'package:dream_team/components/textfield_with_label_widget.dart';
+import 'package:dream_team/controllers/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -21,9 +23,16 @@ class _SearchLeaguesScreenState extends State<SearchLeaguesScreen> {
   final codeController = TextEditingController();
 
   @override
+  void dispose() {
+    codeController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final customLeagueController =
         Provider.of<CustomLeagueController>(context, listen: false);
+    final userController = Provider.of<UserController>(context, listen: false);
 
     return ScreenHolderWidget(
       content: Stack(
@@ -46,31 +55,36 @@ class _SearchLeaguesScreenState extends State<SearchLeaguesScreen> {
                       title: "Ligas comuns",
                       leftWidget: RoundIconWidget(
                         icon: Icons.arrow_back_rounded,
-                        function: () => Navigator.of(context).pop(),
+                        function: () =>
+                            setState(() => Navigator.of(context).pop()),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 40),
-                      child: TextfieldWithLabelWidget(
-                        text: null,
-                        hint: "Código da liga",
-                        controller: codeController,
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                    Stack(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(top: 75, right: 8),
-                          child: IconButton(
-                            icon: const Icon(Icons.search),
-                            onPressed: () {
-                              customLeagueController
-                                  .searchPlayers(codeController.text);
-                              setState(() {});
-                            },
+                          padding: const EdgeInsets.only(top: 40),
+                          child: TextfieldWithLabelWidget(
+                            text: null,
+                            hint: "Código da liga",
+                            controller: codeController,
                           ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 75, right: 8),
+                              child: IconButton(
+                                icon: const Icon(Icons.search),
+                                onPressed: () {
+                                  customLeagueController
+                                      .searchLeagues(codeController.text);
+                                  setState(() {});
+                                },
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -103,11 +117,13 @@ class _SearchLeaguesScreenState extends State<SearchLeaguesScreen> {
                                 .getLeagueMembers(customLeagueController
                                     .getOpenLeagueId(index))
                                 .then(
-                                  (_) => Navigator.of(context).pushNamed(
-                                    AppRoutes.customLeague,
-                                    arguments: customLeagueController
-                                        .getOpenLeagueId(index),
-                                  ),
+                                  (_) => Navigator.of(context)
+                                      .pushNamed(
+                                        AppRoutes.customLeague,
+                                        arguments: customLeagueController
+                                            .getOpenLeagueId(index),
+                                      )
+                                      .then((_) => setState(() {})),
                                 ),
                           ),
                         );

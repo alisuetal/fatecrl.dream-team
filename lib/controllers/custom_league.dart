@@ -11,7 +11,13 @@ class CustomLeagueController with ChangeNotifier {
   final List<CustomLeague> _openLeagues = [];
   List<CustomLeague> _duplcateOpenLeagues = [];
 
-  void searchPlayers(String code) {
+  Future<void> preLoad(String email) async {
+    await loadOpenLeagues(email);
+    searchLeagues("");
+    notifyListeners();
+  }
+
+  void searchLeagues(String code) {
     List<CustomLeague> dummySearchList = [];
     dummySearchList.addAll(_duplcateOpenLeagues);
     if (code.isNotEmpty) {
@@ -150,7 +156,7 @@ class CustomLeagueController with ChangeNotifier {
     return _openLeagues
         .where((element) => element.id == id)
         .first
-        .members
+        .players
         .toString();
   }
 
@@ -197,8 +203,12 @@ class CustomLeagueController with ChangeNotifier {
     return true;
   }
 
+  String getEntryValueId(int id) {
+    return _openLeagues.where((l) => l.id == id).first.entry.toString();
+  }
+
   Future<bool> loadOpenLeagues(String email) async {
-    _openLeagues.clear();
+    _duplcateOpenLeagues.clear();
     final url = "${Constants.baseUrl}CustomLeague/GetOpenLeagues?email=$email";
     final response = await http.get(
       Uri.parse(url),
@@ -218,8 +228,46 @@ class CustomLeagueController with ChangeNotifier {
           entry: int.parse(l['entry']),
           players: int.parse(l['players']),
         );
-        _openLeagues.add(league);
+        _duplcateOpenLeagues.add(league);
       }
+      notifyListeners();
+      return true;
+    }
+    return false;
+  }
+
+  Future<bool> addUser(String email, int id) async {
+    const url = "${Constants.baseUrl}CustomLeague/AddUser";
+    final response = await http.post(
+      Uri.parse(url),
+      body: {
+        'email': email,
+        'leagueId': id.toString(),
+      },
+    );
+    if (response.statusCode == 201) {
+      _leagues.add(_openLeagues.where((l) => l.id == id).first);
+      _duplcateOpenLeagues.removeWhere((l) => l.id == id);
+      searchLeagues("");
+      notifyListeners();
+      return true;
+    }
+    return false;
+  }
+
+  Future<bool> removeUser(String email, int id) async {
+    const url = "${Constants.baseUrl}CustomLeague/RemoveUser";
+    final response = await http.post(
+      Uri.parse(url),
+      body: {
+        'email': email,
+        'leagueId': id.toString(),
+      },
+    );
+    if (response.statusCode == 201) {
+      _duplcateOpenLeagues.add(_leagues.where((l) => l.id == id).first);
+      _leagues.removeWhere((l) => l.id == id);
+      searchLeagues("");
       notifyListeners();
       return true;
     }

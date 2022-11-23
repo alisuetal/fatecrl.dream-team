@@ -28,8 +28,7 @@ class _LeaguesScreenState extends State<LeaguesScreen> {
     final userController = Provider.of<UserController>(context, listen: false);
     final sponsorLeagueController =
         Provider.of<SponsorsLeagueController>(context, listen: false);
-    final customLeagueController =
-        Provider.of<CustomLeagueController>(context, listen: false);
+    final customLeagueController = Provider.of<CustomLeagueController>(context);
 
     return ScreenHolderWidget(
       content: Stack(
@@ -183,9 +182,12 @@ class _LeaguesScreenState extends State<LeaguesScreen> {
                       child: ButtonWidget(
                         text: "Ver mais",
                         function: () => customLeagueController
-                            .loadOpenLeagues(userController.user.email!)
+                            .preLoad(userController.user.email!)
                             .then((_) => Navigator.of(context)
-                                .pushNamed(AppRoutes.searchLeagues)),
+                                .pushNamed(AppRoutes.searchLeagues))
+                            .then((_) {
+                          setState(() {});
+                        }),
                         enabled: true,
                       ),
                     ),

@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:dream_team/components/app_bar_widget.dart';
 import 'package:dream_team/components/button_widget.dart';
 import 'package:dream_team/components/ghost_button_widget.dart';
 import 'package:dream_team/components/inline_information_widget.dart';
+import 'package:dream_team/components/leonitas_market_widget.dart';
 import 'package:dream_team/components/player_team_card_widget.dart';
+import 'package:dream_team/components/pop_up_widget.dart';
 import 'package:dream_team/components/screen_holder_widget.dart';
 import 'package:dream_team/components/textfield_with_label_widget.dart';
 import 'package:dream_team/controllers/custom_league.dart';
@@ -26,9 +30,36 @@ class _CustomLeagueScreenState extends State<CustomLeagueScreen> {
   @override
   Widget build(BuildContext context) {
     final userController = Provider.of<UserController>(context, listen: false);
-    final customLeagueController =
-        Provider.of<CustomLeagueController>(context, listen: false);
+    final customLeagueController = Provider.of<CustomLeagueController>(context);
     final leagueId = ModalRoute.of(context)?.settings.arguments as int;
+
+    Future<bool> entryLeague(int id) async {
+      final entryValue =
+          int.parse(customLeagueController.getEntryValueId(leagueId));
+      if (userController.user.leonita! < entryValue) {
+        showAlertDialog(context, "Erro", "Leonitas insuficientes", false);
+        return false;
+      }
+      final leonita = await userController
+          .upDateLeonita(userController.user.leonita! - entryValue);
+      if (!leonita) {
+        showAlertDialog(context, "Erro", "Tente novamente mais tarde", false);
+        return false;
+      }
+      final add =
+          await customLeagueController.addUser(userController.user.email!, id);
+      if (!add) {
+        showAlertDialog(context, "Erro", "Tente novamente mais tarde", false);
+        return false;
+      }
+      return true;
+    }
+
+    Future<bool> exitLeague(int leagueId) async {
+      final remove = await customLeagueController.removeUser(
+          userController.user.email!, leagueId);
+      return remove;
+    }
 
     return ScreenHolderWidget(
       content: Stack(
@@ -53,6 +84,10 @@ class _CustomLeagueScreenState extends State<CustomLeagueScreen> {
                         icon: Icons.arrow_back_rounded,
                         function: () => Navigator.of(context).pop(),
                       ),
+                      rightWidget: !customLeagueController.isPrivate(leagueId)
+                          ? LeonitasMarketWidget(
+                              leonitas: userController.user.leonita!)
+                          : Container(),
                     ),
                     Text(
                       "Criador: ${customLeagueController.getCreatorNameId(leagueId)} • Código: ${customLeagueController.getCodeId(leagueId)} ${!customLeagueController.isPrivate(leagueId) ? " • ${customLeagueController.getOpenLeagueMembersId(leagueId)} participantes" : ""}",
@@ -139,8 +174,16 @@ class _CustomLeagueScreenState extends State<CustomLeagueScreen> {
                       Padding(
                         padding: const EdgeInsets.only(top: 40),
                         child: ButtonWidget(
-                          text: "Entrar",
-                          function: () => null,
+                          text:
+                              "Entrar \$${customLeagueController.getEntryValueId(leagueId)}",
+                          function: () =>
+                              entryLeague(leagueId).then((response) {
+                            if (response) {
+                              setState(() {
+                                Navigator.of(context).pop();
+                              });
+                            }
+                          }),
                           enabled: true,
                         ),
                       ),
@@ -149,7 +192,13 @@ class _CustomLeagueScreenState extends State<CustomLeagueScreen> {
                         padding: const EdgeInsets.only(top: 16),
                         child: GhostButtonWidget(
                           text: "Sair",
-                          onTap: () => null,
+                          onTap: () => exitLeague(leagueId).then((response) {
+                            if (response) {
+                              setState(() {
+                                Navigator.of(context).pop();
+                              });
+                            }
+                          }),
                           color: Theme.of(context).colorScheme.primary,
                         ),
                       ),
