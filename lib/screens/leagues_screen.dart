@@ -135,44 +135,36 @@ class _LeaguesScreenState extends State<LeaguesScreen> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 8),
+                      //Trocar a ordem do list para o future b
                       child: ListView.builder(
                         physics: const ScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: customLeagueController.countLeagues(),
                         itemBuilder: (context, index) {
-                          return FutureBuilder(
-                            future: customLeagueController.getUserPosition(
-                                userController.user.email!, index, true),
-                            builder: (context, snapshot) {
-                              return Padding(
-                                padding: const EdgeInsets.only(top: 24),
-                                child: LeagueInfoWidget(
-                                  name: customLeagueController
-                                      .getNameIndex(index),
-                                  creator: customLeagueController
-                                      .getCreatorNameIndex(index),
-                                  position: snapshot.hasData
-                                      ? int.parse(snapshot.data.toString())
-                                      : 0,
-                                  points: double.parse(customLeagueController
-                                      .getUserPointsIndex(index)
-                                      .toString()),
-                                  onTap: () {
-                                    customLeagueController
-                                        .getLeagueMembers(customLeagueController
-                                            .getLeagueId(index))
-                                        .then(
-                                          (_) =>
-                                              Navigator.of(context).pushNamed(
-                                            AppRoutes.customLeague,
-                                            arguments: customLeagueController
-                                                .getLeagueId(index),
-                                          ),
-                                        );
-                                  },
-                                ),
-                              );
-                            },
+                          return Padding(
+                            padding: const EdgeInsets.only(top: 24),
+                            child: LeagueInfoWidget(
+                              name: customLeagueController.getNameIndex(index),
+                              creator: customLeagueController
+                                  .getCreatorNameIndex(index),
+                              position: customLeagueController
+                                  .getUserPositionIndex(index),
+                              points: double.parse(customLeagueController
+                                  .getUserPointsIndex(index)
+                                  .toString()),
+                              onTap: () {
+                                customLeagueController
+                                    .getLeagueMembers(customLeagueController
+                                        .getLeagueId(index))
+                                    .then(
+                                      (_) => Navigator.of(context).pushNamed(
+                                        AppRoutes.customLeague,
+                                        arguments: customLeagueController
+                                            .getLeagueId(index),
+                                      ),
+                                    );
+                              },
+                            ),
                           );
                         },
                       ),
@@ -197,7 +189,10 @@ class _LeaguesScreenState extends State<LeaguesScreen> {
                         text: "Criar liga comum",
                         onTap: () {
                           Navigator.of(context)
-                              .pushNamed(AppRoutes.createLeague);
+                              .pushNamed(AppRoutes.createLeague)
+                              .then((_) {
+                            setState(() {});
+                          });
                         },
                         color: Theme.of(context).colorScheme.primary,
                       ),

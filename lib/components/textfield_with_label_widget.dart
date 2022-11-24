@@ -5,6 +5,7 @@ import 'textfield_widget.dart';
 class TextfieldWithLabelWidget extends StatelessWidget {
   final String hint;
   final Function(String text)? validator;
+  final Function(String text)? onChange;
   final TextInputType? keyboardtype;
   final TextEditingController? controller;
   final String? text;
@@ -17,7 +18,8 @@ class TextfieldWithLabelWidget extends StatelessWidget {
       this.controller,
       this.obscure,
       this.keyboardtype,
-      this.validator})
+      this.validator,
+      this.onChange})
       : super(key: key);
 
   @override

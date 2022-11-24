@@ -9,6 +9,7 @@ class CustomLeague {
   final String creator;
   final int entry;
   final int players;
+  int userPosition;
 
   CustomLeague({
     required this.id,
@@ -21,5 +22,6 @@ class CustomLeague {
     required this.creator,
     required this.entry,
     required this.players,
+    required this.userPosition,
   });
 }

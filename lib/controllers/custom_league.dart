@@ -44,6 +44,14 @@ class CustomLeagueController with ChangeNotifier {
     return _leagues.elementAt(index).creator;
   }
 
+  int getUserPositionIndex(int index) {
+    return _leagues.elementAt(index).userPosition;
+  }
+
+  int getUserPositionId(int id) {
+    return _leagues.where((l) => l.id == id).first.userPosition;
+  }
+
   int getUserPointsIndex(int index) {
     return _leagues.elementAt(index).userPoints;
   }
@@ -125,10 +133,9 @@ class CustomLeagueController with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<int> getUserPosition(String email, int i, bool isIndex) async {
-    final league = isIndex ? _leagues.elementAt(i).id : i;
+  Future<int> getUserPosition(String email, int id) async {
     final url =
-        "${Constants.baseUrl}CustomLeague/GetUserPosition?email=$email&league=$league";
+        "${Constants.baseUrl}CustomLeague/GetUserPosition?email=$email&league=$id";
     final response = await http.get(
       Uri.parse(url),
     );
@@ -187,6 +194,7 @@ class CustomLeagueController with ChangeNotifier {
           creator: l['creator'],
           entry: int.parse(l['entry']),
           players: int.parse(l['players']),
+          userPosition: int.parse(l['position']),
         );
         _leagues.add(league);
       }
@@ -227,6 +235,7 @@ class CustomLeagueController with ChangeNotifier {
           creator: l['creator'],
           entry: int.parse(l['entry']),
           players: int.parse(l['players']),
+          userPosition: int.parse(l['position']),
         );
         _duplcateOpenLeagues.add(league);
       }
@@ -246,6 +255,8 @@ class CustomLeagueController with ChangeNotifier {
       },
     );
     if (response.statusCode == 201) {
+      final league = _openLeagues.where((l) => l.id == id).first.userPosition =
+          await getUserPosition(email, id);
       _leagues.add(_openLeagues.where((l) => l.id == id).first);
       _duplcateOpenLeagues.removeWhere((l) => l.id == id);
       searchLeagues("");
@@ -268,6 +279,48 @@ class CustomLeagueController with ChangeNotifier {
       _duplcateOpenLeagues.add(_leagues.where((l) => l.id == id).first);
       _leagues.removeWhere((l) => l.id == id);
       searchLeagues("");
+      notifyListeners();
+      return true;
+    }
+    return false;
+  }
+
+  Future<bool> createLeague({
+    required String name,
+    required int rounds,
+    required int userLength,
+    required bool private,
+    required int value,
+    required String email,
+  }) async {
+    const url = "${Constants.baseUrl}CustomLeague/CreateLeague";
+    final response = await http.post(
+      Uri.parse(url),
+      body: {
+        'name': name,
+        'rounds': rounds.toString(),
+        'userLength': userLength.toString(),
+        'private': private.toString(),
+        'value': value.toString(),
+        'email': email,
+      },
+    );
+    if (response.statusCode == 201) {
+      final l = jsonDecode(response.body);
+      CustomLeague league = CustomLeague(
+        id: int.parse(l['id']),
+        name: name,
+        rounds: rounds,
+        members: userLength,
+        private: private,
+        privateId: l['code'],
+        userPoints: 0,
+        creator: l['creator'],
+        entry: value,
+        players: int.parse(l['players']),
+        userPosition: 1,
+      );
+      _leagues.add(league);
       notifyListeners();
       return true;
     }

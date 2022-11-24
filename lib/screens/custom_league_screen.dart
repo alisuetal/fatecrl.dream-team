@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dream_team/components/app_bar_widget.dart';
 import 'package:dream_team/components/button_widget.dart';
+import 'package:dream_team/components/dialog_widget.dart';
 import 'package:dream_team/components/ghost_button_widget.dart';
 import 'package:dream_team/components/inline_information_widget.dart';
 import 'package:dream_team/components/leonitas_market_widget.dart';
@@ -56,9 +57,14 @@ class _CustomLeagueScreenState extends State<CustomLeagueScreen> {
     }
 
     Future<bool> exitLeague(int leagueId) async {
-      final remove = await customLeagueController.removeUser(
-          userController.user.email!, leagueId);
-      return remove;
+      final bool response = await showDialogWidget(
+          context, "Atenção", "Deseja mesmo sair?", "Cancelar", "Sair");
+      if (response) {
+        final remove = await customLeagueController.removeUser(
+            userController.user.email!, leagueId);
+        return remove;
+      }
+      return false;
     }
 
     return ScreenHolderWidget(
@@ -128,18 +134,14 @@ class _CustomLeagueScreenState extends State<CustomLeagueScreen> {
                                   .toString(),
                             ),
                           ),
-                          FutureBuilder(
-                            future: customLeagueController.getUserPosition(
-                                userController.user.email!, leagueId, false),
-                            builder: (context, snapshot) {
-                              return Padding(
-                                padding: const EdgeInsets.only(top: 16),
-                                child: InlineInformationWidget(
-                                  leftText: "Posição",
-                                  rightText: snapshot.data.toString(),
-                                ),
-                              );
-                            },
+                          Padding(
+                            padding: const EdgeInsets.only(top: 16),
+                            child: InlineInformationWidget(
+                              leftText: "Posição",
+                              rightText: customLeagueController
+                                  .getUserPositionId(leagueId)
+                                  .toString(),
+                            ),
                           ),
                         ],
                       ),
@@ -187,7 +189,9 @@ class _CustomLeagueScreenState extends State<CustomLeagueScreen> {
                           enabled: true,
                         ),
                       ),
-                    if (customLeagueController.isPrivate(leagueId))
+                    if (customLeagueController.isPrivate(leagueId) &&
+                        userController.user.nickname !=
+                            customLeagueController.getCreatorNameId(leagueId))
                       Padding(
                         padding: const EdgeInsets.only(top: 16),
                         child: GhostButtonWidget(

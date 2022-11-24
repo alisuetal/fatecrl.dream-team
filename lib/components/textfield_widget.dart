@@ -4,6 +4,7 @@ class TextfieldWidget extends StatefulWidget {
   final String? text;
   final String hint;
   final Function(String value)? validator;
+  final Function(String value)? onChange;
   final TextEditingController? controller;
   final TextInputType? keyboardtype;
   final bool? obscure;
@@ -16,6 +17,7 @@ class TextfieldWidget extends StatefulWidget {
     this.obscure,
     this.validator,
     this.keyboardtype,
+    this.onChange,
   }) : super(key: key);
 
   @override
@@ -41,6 +43,8 @@ class _TextfieldWidgetState extends State<TextfieldWidget> {
           children: [
             TextFormField(
               maxLength: 120,
+              onChanged: (value) =>
+                  widget.onChange != null ? widget.onChange!(value) : null,
               controller: widget.controller,
               textAlignVertical: TextAlignVertical.center,
               decoration: InputDecoration(

@@ -64,10 +64,11 @@ class _SearchLeaguesScreenState extends State<SearchLeaguesScreen> {
                         Padding(
                           padding: const EdgeInsets.only(top: 40),
                           child: TextfieldWithLabelWidget(
-                            text: null,
-                            hint: "Código da liga",
-                            controller: codeController,
-                          ),
+                              text: null,
+                              hint: "Código da liga",
+                              controller: codeController,
+                              onChange: (_) => customLeagueController
+                                  .searchLeagues(codeController.text)),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
