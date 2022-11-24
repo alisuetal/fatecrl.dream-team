@@ -24,15 +24,13 @@ class LogInScreen extends StatelessWidget {
 
   Future<bool> _submitSignIn(
       UserController userController, BuildContext context) async {
-    // final bool isValid = _formKey.currentState!.validate();
-    // if (!isValid) {
-    //   return false;
-    // }
-    // _formKey.currentState?.save();
-    // final bool signIn = await userController.signIn(
-    //     _emailController.text, _passwordController.text);
-    final bool signIn =
-        await userController.signIn("gabriel1@gmail.com", "doVal13\$\$\$");
+    final bool isValid = _formKey.currentState!.validate();
+    if (!isValid) {
+      return false;
+    }
+    _formKey.currentState?.save();
+    final bool signIn = await userController.signIn(
+        _emailController.text, _passwordController.text);
     if (signIn) {
       return true;
     }
