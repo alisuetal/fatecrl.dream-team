@@ -30,7 +30,7 @@ class CreateLeagueScreen extends HookWidget {
     Future<bool> createLeague() async {
       if (nameController.text.isEmpty ||
           createPrice.value == 0 ||
-          nameController.text.length < 8) {
+          nameController.text.length < 5) {
         showAlertDialog(context, "Erro", "Preencha todos os campos", false);
         return false;
       }
