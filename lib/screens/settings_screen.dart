@@ -1,5 +1,7 @@
 import 'package:dream_team/components/app_bar_widget.dart';
 import 'package:dream_team/components/button_widget.dart';
+import 'package:dream_team/components/dialog_widget.dart';
+import 'package:dream_team/components/ghost_button_widget.dart';
 import 'package:dream_team/components/header_profile_picture_widget.dart';
 import 'package:dream_team/components/screen_holder_widget.dart';
 import 'package:dream_team/controllers/user.dart';
@@ -14,6 +16,14 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    exit() async {
+      final bool sair = await showDialogWidget(
+          context, "Atenção", "Deseja mesmo sair?", "cancelar", "Sair");
+      if (sair) {
+        Navigator.of(context).pushNamed(AppRoutes.home);
+      }
+    }
+
     final UserController user =
         Provider.of<UserController>(context, listen: true);
     return ScreenHolderWidget(
@@ -94,6 +104,14 @@ class SettingsScreen extends StatelessWidget {
                           );
                         },
                         text: "Alterar senha",
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 16),
+                      child: GhostButtonWidget(
+                        text: "Sair",
+                        onTap: () => exit(),
+                        color: Theme.of(context).colorScheme.primary,
                       ),
                     ),
                   ],

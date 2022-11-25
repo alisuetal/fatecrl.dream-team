@@ -46,6 +46,7 @@ class UserController with ChangeNotifier {
       },
     );
     if (response.statusCode == 201) {
+      user.position = await getPosition(user.nickname!, user.sponsorsLeague!);
       notifyListeners();
       return true;
     }

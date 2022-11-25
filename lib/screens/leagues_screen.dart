@@ -25,7 +25,7 @@ class _LeaguesScreenState extends State<LeaguesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final userController = Provider.of<UserController>(context, listen: false);
+    final userController = Provider.of<UserController>(context);
     final sponsorLeagueController =
         Provider.of<SponsorsLeagueController>(context, listen: false);
     final customLeagueController = Provider.of<CustomLeagueController>(context);

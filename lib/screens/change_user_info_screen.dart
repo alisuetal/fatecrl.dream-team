@@ -5,11 +5,9 @@ import 'package:dream_team/components/screen_holder_widget.dart';
 import 'package:dream_team/components/textfield_widget.dart';
 import 'package:dream_team/components/textfield_with_label_widget.dart';
 import 'package:dream_team/controllers/user.dart';
-import 'package:dream_team/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 import '../components/round_icon_widget.dart';

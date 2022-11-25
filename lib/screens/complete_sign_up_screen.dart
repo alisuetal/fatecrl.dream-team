@@ -43,8 +43,10 @@ class _CompleteSignUpScreenState extends State<CompleteSignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final UserController userControler = Provider.of<UserController>(context);
-    final TeamController teamControler = Provider.of<TeamController>(context);
+    final UserController userController = Provider.of<UserController>(context);
+    final TeamController teamController = Provider.of<TeamController>(context);
+    final sponsorLeagueController =
+        Provider.of<SponsorsLeagueController>(context, listen: false);
 
     Future<bool> submitCompleteSignUp(UserController userControler) async {
       final bool isValid = _formKey.currentState!.validate();
@@ -69,10 +71,14 @@ class _CompleteSignUpScreenState extends State<CompleteSignUpScreen> {
 
       userControler.setUser(finalUser);
 
+      await sponsorLeagueController.loudLeagues();
+
+      await teamController.loadPlayers(userController.user.email!);
+
       final bool signUp = await userControler.signUp();
 
       if (signUp) {
-        teamControler.setTatic(0);
+        teamController.setTatic(0);
         return true;
       }
       showAlertDialog(context, "Erro", "Ocorreu um erro de conexão", false);
@@ -126,7 +132,8 @@ class _CompleteSignUpScreenState extends State<CompleteSignUpScreen> {
                         child: ButtonWidget(
                           enabled: true,
                           function: () {
-                            submitCompleteSignUp(userControler).then((sucsses) {
+                            submitCompleteSignUp(userController)
+                                .then((sucsses) {
                               if (sucsses) {
                                 Navigator.of(context)
                                     .pushReplacementNamed(AppRoutes.tabsScreen);

@@ -176,6 +176,7 @@ class CustomLeagueController with ChangeNotifier {
   }
 
   Future<bool> getCustomLeague(String email) async {
+    _leagues.clear();
     final url = "${Constants.baseUrl}CustomLeague/GetLeagueUser?email=$email";
     final response = await http.get(
       Uri.parse(url),

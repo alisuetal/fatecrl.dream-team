@@ -26,9 +26,13 @@ class AppBarWidget extends StatelessWidget {
                 const SizedBox(
                   width: 16,
                 ),
-              Text(
-                title,
-                style: Theme.of(context).textTheme.headline2,
+              SizedBox(
+                width: 220,
+                child: Text(
+                  title,
+                  style: Theme.of(context).textTheme.headline2,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
             ],
           ),
