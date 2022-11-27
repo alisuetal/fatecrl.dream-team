@@ -7,7 +7,7 @@ Future<void> showAlertDialog(
   String text,
   bool success,
 ) async {
-  showDialog(
+  await showDialog(
     context: context,
     builder: (BuildContext context) {
       return PopUpWidget(

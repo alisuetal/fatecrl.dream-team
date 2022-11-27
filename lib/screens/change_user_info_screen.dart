@@ -25,7 +25,7 @@ class ChangeUserInfoScreen extends HookWidget {
     final arguments = ModalRoute.of(context)?.settings.arguments as List;
     final visibility = useState<bool>(arguments[1] as bool);
 
-    void changeInfo(
+    Future<void> changeInfo(
       int? price,
       String field,
       String fieldValue,
@@ -50,7 +50,7 @@ class ChangeUserInfoScreen extends HookWidget {
                 "Sucesso!",
                 "Apelido alterado com sucesso",
                 true,
-              );
+              ).then((_) => Navigator.of(context).pop());
             }
           }
           break;
@@ -72,7 +72,7 @@ class ChangeUserInfoScreen extends HookWidget {
                 "Sucesso!",
                 "E-mail alterado com sucesso",
                 true,
-              );
+              ).then((_) => Navigator.of(context).pop());
             }
           }
           break;
@@ -94,7 +94,7 @@ class ChangeUserInfoScreen extends HookWidget {
                 "Sucesso!",
                 "Senha alterada com sucesso",
                 true,
-              );
+              ).then((_) => Navigator.of(context).pop());
             }
           }
           break;
@@ -159,7 +159,7 @@ class ChangeUserInfoScreen extends HookWidget {
                             GestureDetector(
                               onTap: () => visibility.value = !visibility.value,
                               child: Icon(
-                                visibility.value
+                                !visibility.value
                                     ? Icons.visibility_off_rounded
                                     : Icons.visibility_rounded,
                               ),

@@ -39,33 +39,20 @@ class UserScreen extends HookWidget {
                       padding: const EdgeInsets.only(top: 40),
                       child: Stack(
                         children: [
-                          Container(
-                            height: 128,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: const Color.fromARGB(255, 158, 59, 59),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 64),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(64),
+                                child: SizedBox(
                                   height: 128,
                                   width: 128,
-                                  decoration: BoxDecoration(
-                                    color:
-                                        const Color.fromARGB(255, 148, 129, 47),
-                                    border: Border.all(
-                                      color: const Color(0xff222222),
-                                      width: 4,
-                                    ),
-                                    borderRadius: BorderRadius.circular(64),
+                                  child: Image.network(
+                                    "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png",
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -111,7 +98,7 @@ class UserScreen extends HookWidget {
                               label: "Points",
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 16,
                           ),
                           Flexible(
@@ -121,15 +108,6 @@ class UserScreen extends HookWidget {
                             ),
                           ),
                         ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 40.0),
-                      child: Text(
-                        "Outros status",
-                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                            color: const Color(0xffAAAAAA),
-                            fontWeight: FontWeight.w600),
                       ),
                     ),
                     const SizedBox(

@@ -66,7 +66,7 @@ class LeagueInfoWidget extends StatelessWidget {
               if (players == null)
                 points != -1
                     ? LeagueColumnInfoWidget(
-                        info: points!.toString(),
+                        info: points!.toInt().toString(),
                         label: "Pts.",
                       )
                     : const LeagueColumnInfoWidget(

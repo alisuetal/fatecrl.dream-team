@@ -66,13 +66,6 @@ class _SponsorLeagueScreenState extends State<SponsorLeagueScreen> {
                                       fontWeight: FontWeight.w600),
                             ),
                           ),
-                          const Padding(
-                            padding: EdgeInsets.only(top: 8),
-                            child: InlineInformationWidget(
-                              leftText: "Pontos na última rodada",
-                              rightText: "0",
-                            ),
-                          ),
                           Padding(
                             padding: const EdgeInsets.only(top: 16),
                             child: InlineInformationWidget(
