@@ -16,6 +16,7 @@ class HomeScreen extends StatelessWidget {
         children: [
           SvgPicture.asset(
             "assets/svg/background.svg",
+            fit: BoxFit.cover,
           ),
           Padding(
             padding: const EdgeInsets.all(30.0),

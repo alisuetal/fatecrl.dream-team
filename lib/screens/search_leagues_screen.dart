@@ -40,6 +40,7 @@ class _SearchLeaguesScreenState extends State<SearchLeaguesScreen> {
         children: [
           SvgPicture.asset(
             "assets/svg/background.svg",
+            fit: BoxFit.cover,
           ),
           Padding(
             padding: const EdgeInsets.all(30.0),

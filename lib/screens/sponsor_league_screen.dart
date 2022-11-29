@@ -31,6 +31,7 @@ class _SponsorLeagueScreenState extends State<SponsorLeagueScreen> {
         children: [
           SvgPicture.asset(
             "assets/svg/background.svg",
+            fit: BoxFit.cover,
           ),
           Padding(
             padding: const EdgeInsets.all(30.0),
